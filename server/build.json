@@ -1,0 +1,848 @@
+{
+  "actions" : [
+    {
+      "causes" : [
+        {
+          "shortDescription" : "Started by GitHub push by splodingsocks"
+        },
+        {
+          "shortDescription" : "Started by GitHub push by splodingsocks"
+        },
+        {
+          "shortDescription" : "Started by GitHub push by splodingsocks"
+        },
+        {
+          "shortDescription" : "Started by GitHub push by splodingsocks"
+        }
+      ]
+    },
+    {
+
+    },
+    {
+      "parameters" : [
+        {
+          "name" : "HOTFIX",
+          "value" : ""
+        },
+        {
+          "name" : "CLEAN_MODULES",
+          "value" : false
+        }
+      ]
+    },
+    {
+
+    },
+    {
+      "buildsByBranchName" : {
+        "origin/master" : {
+          "buildNumber" : 477,
+          "buildResult" : null,
+          "marked" : {
+            "SHA1" : "81758faa0cd3c9e152d76ea93b9772161d0e5919",
+            "branch" : [
+              {
+                "SHA1" : "81758faa0cd3c9e152d76ea93b9772161d0e5919",
+                "name" : "origin/master"
+              }
+            ]
+          },
+          "revision" : {
+            "SHA1" : "81758faa0cd3c9e152d76ea93b9772161d0e5919",
+            "branch" : [
+              {
+                "SHA1" : "81758faa0cd3c9e152d76ea93b9772161d0e5919",
+                "name" : "origin/master"
+              }
+            ]
+          }
+        }
+      },
+      "lastBuiltRevision" : {
+        "SHA1" : "81758faa0cd3c9e152d76ea93b9772161d0e5919",
+        "branch" : [
+          {
+            "SHA1" : "81758faa0cd3c9e152d76ea93b9772161d0e5919",
+            "name" : "origin/master"
+          }
+        ]
+      },
+      "remoteUrls" : [
+        "https://github.com/KualiCo/cm.git"
+      ],
+      "scmName" : ""
+    },
+    {
+
+    },
+    {
+
+    },
+    {
+
+    },
+    {
+
+    },
+    {
+
+    },
+    {
+
+    }
+  ],
+  "artifacts" : [
+
+  ],
+  "building" : false,
+  "description" : null,
+  "displayName" : "1512.0046",
+  "duration" : 518284,
+  "estimatedDuration" : 425437,
+  "executor" : null,
+  "fullDisplayName" : "STU-CM-Build-Master 1512.0046",
+  "id" : "477",
+  "keepLog" : false,
+  "number" : 477,
+  "queueId" : 1489,
+  "result" : "SUCCESS",
+  "timestamp" : 1449874466786,
+  "url" : "***REMOVED***/job/STU-CM-Build-Master/477/",
+  "builtOn" : "Builder (i-a8f28571)",
+  "changeSet" : {
+    "items" : [
+      {
+        "affectedPaths" : [
+          "client/app/gadgets/data/specific/learning-objectives.jsx",
+          "client/app/common/tagbot.jsx"
+        ],
+        "commitId" : "5fe42405f132cb92f02b1fe6bbd6e92779cbe0ae",
+        "timestamp" : -1,
+        "author" : {
+          "absoluteUrl" : "***REMOVED***/user/***REMOVED***",
+          "fullName" : "Murphy Randle"
+        },
+        "comment" : "Genericize tagbot\n",
+        "date" : "2015-12-11 12:11:56 -0700",
+        "id" : "5fe42405f132cb92f02b1fe6bbd6e92779cbe0ae",
+        "msg" : "Genericize tagbot",
+        "paths" : [
+          {
+            "editType" : "edit",
+            "file" : "client/app/common/tagbot.jsx"
+          },
+          {
+            "editType" : "edit",
+            "file" : "client/app/gadgets/data/specific/learning-objectives.jsx"
+          }
+        ]
+      },
+      {
+        "affectedPaths" : [
+          "client/app/gadgets/data/specific/tags/tags.istyl",
+          "client/app/gadgets/data/specific/tags/tags.jsx",
+          "client/app/gadgets/packaged-data-gadgets.js",
+          "client/app/gadgets/fixed-g-keys.js"
+        ],
+        "commitId" : "da0ebef7d72d11fb102ceb28af8dc7acb7a88a8a",
+        "timestamp" : -1,
+        "author" : {
+          "absoluteUrl" : "***REMOVED***/user/***REMOVED***",
+          "fullName" : "Murphy Randle"
+        },
+        "comment" : "WIP - Add tag gadget\n",
+        "date" : "2015-12-11 12:11:56 -0700",
+        "id" : "da0ebef7d72d11fb102ceb28af8dc7acb7a88a8a",
+        "msg" : "WIP - Add tag gadget",
+        "paths" : [
+          {
+            "editType" : "add",
+            "file" : "client/app/gadgets/data/specific/tags/tags.jsx"
+          },
+          {
+            "editType" : "edit",
+            "file" : "client/app/gadgets/packaged-data-gadgets.js"
+          },
+          {
+            "editType" : "edit",
+            "file" : "client/app/gadgets/fixed-g-keys.js"
+          },
+          {
+            "editType" : "add",
+            "file" : "client/app/gadgets/data/specific/tags/tags.istyl"
+          }
+        ]
+      },
+      {
+        "affectedPaths" : [
+          "client/app/gadgets/data/specific/learning-objectives.jsx",
+          "client/app/common/tagbot.jsx"
+        ],
+        "commitId" : "3f131b6ce69759830ee9703d29c0e3fc0de71c62",
+        "timestamp" : -1,
+        "author" : {
+          "absoluteUrl" : "***REMOVED***/user/***REMOVED***",
+          "fullName" : "Murphy Randle"
+        },
+        "comment" : "Move input width out of tagbot\n",
+        "date" : "2015-12-11 12:11:56 -0700",
+        "id" : "3f131b6ce69759830ee9703d29c0e3fc0de71c62",
+        "msg" : "Move input width out of tagbot",
+        "paths" : [
+          {
+            "editType" : "edit",
+            "file" : "client/app/common/tagbot.jsx"
+          },
+          {
+            "editType" : "edit",
+            "file" : "client/app/gadgets/data/specific/learning-objectives.jsx"
+          }
+        ]
+      },
+      {
+        "affectedPaths" : [
+          "client/app/settings/handler.jsx",
+          "client/app/gadgets/data/specific/tags/tags.jsx",
+          "client/app/common/tagbot.jsx"
+        ],
+        "commitId" : "cd5af4e86b29347fe898b86b25c9c1a7611aef45",
+        "timestamp" : -1,
+        "author" : {
+          "absoluteUrl" : "***REMOVED***/user/***REMOVED***",
+          "fullName" : "Murphy Randle"
+        },
+        "comment" : "Add \"Tags\" option type\n",
+        "date" : "2015-12-11 12:11:56 -0700",
+        "id" : "cd5af4e86b29347fe898b86b25c9c1a7611aef45",
+        "msg" : "Add \"Tags\" option type",
+        "paths" : [
+          {
+            "editType" : "edit",
+            "file" : "client/app/common/tagbot.jsx"
+          },
+          {
+            "editType" : "edit",
+            "file" : "client/app/settings/handler.jsx"
+          },
+          {
+            "editType" : "edit",
+            "file" : "client/app/gadgets/data/specific/tags/tags.jsx"
+          }
+        ]
+      },
+      {
+        "affectedPaths" : [
+          "server/lib/denormalizer.js",
+          "test/denormalizer.js"
+        ],
+        "commitId" : "7a6350fcea0de717c2133195ed5bb6a18bc0b72e",
+        "timestamp" : -1,
+        "author" : {
+          "absoluteUrl" : "***REMOVED***/user/***REMOVED***",
+          "fullName" : "Murphy Randle"
+        },
+        "comment" : "Support denormalizing arrays of IDs\n",
+        "date" : "2015-12-11 12:11:56 -0700",
+        "id" : "7a6350fcea0de717c2133195ed5bb6a18bc0b72e",
+        "msg" : "Support denormalizing arrays of IDs",
+        "paths" : [
+          {
+            "editType" : "edit",
+            "file" : "test/denormalizer.js"
+          },
+          {
+            "editType" : "edit",
+            "file" : "server/lib/denormalizer.js"
+          }
+        ]
+      },
+      {
+        "affectedPaths" : [
+          "shared/item/default-labels.js"
+        ],
+        "commitId" : "b86e1a53c1fd64c82443eff21e6527311e5b58b8",
+        "timestamp" : -1,
+        "author" : {
+          "absoluteUrl" : "***REMOVED***/user/***REMOVED***",
+          "fullName" : "Murphy Randle"
+        },
+        "comment" : "Add a default label for tags\n",
+        "date" : "2015-12-11 12:11:56 -0700",
+        "id" : "b86e1a53c1fd64c82443eff21e6527311e5b58b8",
+        "msg" : "Add a default label for tags",
+        "paths" : [
+          {
+            "editType" : "edit",
+            "file" : "shared/item/default-labels.js"
+          }
+        ]
+      },
+      {
+        "affectedPaths" : [
+          "server/search/search.js",
+          "server/resources/_item/model.js",
+          "test/search/routes.js",
+          "server/resources/_item/item_mapping.js",
+          "server/search/routes.js",
+          "server/lib/denormalizer.js"
+        ],
+        "commitId" : "40fd002c0623fc35bdb3b8a0f28e00effd0bedfa",
+        "timestamp" : -1,
+        "author" : {
+          "absoluteUrl" : "***REMOVED***/user/***REMOVED***",
+          "fullName" : "Murphy Randle"
+        },
+        "comment" : "Support searching on tags\n",
+        "date" : "2015-12-11 12:11:56 -0700",
+        "id" : "40fd002c0623fc35bdb3b8a0f28e00effd0bedfa",
+        "msg" : "Support searching on tags",
+        "paths" : [
+          {
+            "editType" : "edit",
+            "file" : "server/resources/_item/item_mapping.js"
+          },
+          {
+            "editType" : "edit",
+            "file" : "server/search/routes.js"
+          },
+          {
+            "editType" : "edit",
+            "file" : "server/search/search.js"
+          },
+          {
+            "editType" : "edit",
+            "file" : "test/search/routes.js"
+          },
+          {
+            "editType" : "edit",
+            "file" : "server/resources/_item/model.js"
+          },
+          {
+            "editType" : "edit",
+            "file" : "server/lib/denormalizer.js"
+          }
+        ]
+      },
+      {
+        "affectedPaths" : [
+          "client/app/search/main-content-sm.jsx",
+          "client/app/search/store.js",
+          "client/app/search/tags.istyl",
+          "client/app/common/tagbot.jsx",
+          "client/app/search/main-content.istyl",
+          "client/app/search/main-content.jsx",
+          "types/app-types.js",
+          "client/app/search/tags.jsx",
+          "server/search/routes.js",
+          "client/app/i18n/data.js",
+          "client/app/search/include-retire.jsx"
+        ],
+        "commitId" : "c34111e3d47609bba9918cec2e30ecce8c5eb381",
+        "timestamp" : -1,
+        "author" : {
+          "absoluteUrl" : "***REMOVED***/user/***REMOVED***",
+          "fullName" : "Murphy Randle"
+        },
+        "comment" : "Search by tag\n",
+        "date" : "2015-12-11 12:11:56 -0700",
+        "id" : "c34111e3d47609bba9918cec2e30ecce8c5eb381",
+        "msg" : "Search by tag",
+        "paths" : [
+          {
+            "editType" : "add",
+            "file" : "client/app/search/tags.jsx"
+          },
+          {
+            "editType" : "edit",
+            "file" : "client/app/search/main-content-sm.jsx"
+          },
+          {
+            "editType" : "edit",
+            "file" : "client/app/common/tagbot.jsx"
+          },
+          {
+            "editType" : "edit",
+            "file" : "client/app/search/main-content.jsx"
+          },
+          {
+            "editType" : "edit",
+            "file" : "client/app/search/main-content.istyl"
+          },
+          {
+            "editType" : "edit",
+            "file" : "client/app/search/store.js"
+          },
+          {
+            "editType" : "edit",
+            "file" : "server/search/routes.js"
+          },
+          {
+            "editType" : "edit",
+            "file" : "types/app-types.js"
+          },
+          {
+            "editType" : "edit",
+            "file" : "client/app/i18n/data.js"
+          },
+          {
+            "editType" : "edit",
+            "file" : "client/app/search/include-retire.jsx"
+          },
+          {
+            "editType" : "add",
+            "file" : "client/app/search/tags.istyl"
+          }
+        ]
+      },
+      {
+        "affectedPaths" : [
+          "server/app.js",
+          "server/resources/tags/types.js",
+          "server/resources/_item/model.js",
+          "server/resources/tags/helpers.js",
+          "server/resources/tags/routes.js",
+          "test/tags.js"
+        ],
+        "commitId" : "1a9b803eb788685ed827724b329f21bcf41e30b1",
+        "timestamp" : -1,
+        "author" : {
+          "absoluteUrl" : "***REMOVED***/user/***REMOVED***",
+          "fullName" : "Murphy Randle"
+        },
+        "comment" : "Add endpoint for getting tag and tag memeber info\n",
+        "date" : "2015-12-11 12:11:56 -0700",
+        "id" : "1a9b803eb788685ed827724b329f21bcf41e30b1",
+        "msg" : "Add endpoint for getting tag and tag memeber info",
+        "paths" : [
+          {
+            "editType" : "add",
+            "file" : "server/resources/tags/types.js"
+          },
+          {
+            "editType" : "edit",
+            "file" : "server/resources/_item/model.js"
+          },
+          {
+            "editType" : "add",
+            "file" : "server/resources/tags/routes.js"
+          },
+          {
+            "editType" : "add",
+            "file" : "server/resources/tags/helpers.js"
+          },
+          {
+            "editType" : "edit",
+            "file" : "server/app.js"
+          },
+          {
+            "editType" : "add",
+            "file" : "test/tags.js"
+          }
+        ]
+      },
+      {
+        "affectedPaths" : [
+          "server/resources/_item/model.js",
+          "client/app/gadgets/lib/gadget.jsx",
+          "client/app/gadgets/data/specific/tags/tags.istyl",
+          "client/app/gadgets/data/specific/tags/tags.jsx",
+          "server/search/search.js",
+          "server/resources/_item/item_mapping.js",
+          "client/app/_item/header/styles.istyl",
+          "test/tags.js",
+          "client/app/common/stylebot.styl",
+          "server/search/routes.js"
+        ],
+        "commitId" : "63dfb3320d4c4cd35db031f3873ee25f8893794a",
+        "timestamp" : -1,
+        "author" : {
+          "absoluteUrl" : "***REMOVED***/user/***REMOVED***",
+          "fullName" : "Murphy Randle"
+        },
+        "comment" : "Finish up tags gadget\n",
+        "date" : "2015-12-11 12:11:56 -0700",
+        "id" : "63dfb3320d4c4cd35db031f3873ee25f8893794a",
+        "msg" : "Finish up tags gadget",
+        "paths" : [
+          {
+            "editType" : "edit",
+            "file" : "client/app/gadgets/data/specific/tags/tags.jsx"
+          },
+          {
+            "editType" : "edit",
+            "file" : "server/resources/_item/item_mapping.js"
+          },
+          {
+            "editType" : "edit",
+            "file" : "client/app/gadgets/data/specific/tags/tags.istyl"
+          },
+          {
+            "editType" : "edit",
+            "file" : "client/app/_item/header/styles.istyl"
+          },
+          {
+            "editType" : "edit",
+            "file" : "client/app/common/stylebot.styl"
+          },
+          {
+            "editType" : "edit",
+            "file" : "server/search/search.js"
+          },
+          {
+            "editType" : "edit",
+            "file" : "server/search/routes.js"
+          },
+          {
+            "editType" : "edit",
+            "file" : "server/resources/_item/model.js"
+          },
+          {
+            "editType" : "edit",
+            "file" : "test/tags.js"
+          },
+          {
+            "editType" : "edit",
+            "file" : "client/app/gadgets/lib/gadget.jsx"
+          }
+        ]
+      },
+      {
+        "affectedPaths" : [
+          "server/lib/denormalizer.js"
+        ],
+        "commitId" : "7f404ec4d9a3c3c2df6800d7168da24b74cfabf0",
+        "timestamp" : -1,
+        "author" : {
+          "absoluteUrl" : "***REMOVED***/user/***REMOVED***",
+          "fullName" : "Murphy Randle"
+        },
+        "comment" : "Refactor denormalizer for understandability\n",
+        "date" : "2015-12-11 12:55:52 -0700",
+        "id" : "7f404ec4d9a3c3c2df6800d7168da24b74cfabf0",
+        "msg" : "Refactor denormalizer for understandability",
+        "paths" : [
+          {
+            "editType" : "edit",
+            "file" : "server/lib/denormalizer.js"
+          }
+        ]
+      },
+      {
+        "affectedPaths" : [
+          "test/search/routes.js"
+        ],
+        "commitId" : "747763eb96a69dba8110f8bf85936c1418d2b188",
+        "timestamp" : -1,
+        "author" : {
+          "absoluteUrl" : "***REMOVED***/user/***REMOVED***",
+          "fullName" : "Murphy Randle"
+        },
+        "comment" : "Fix failing tests\n",
+        "date" : "2015-12-11 13:19:22 -0700",
+        "id" : "747763eb96a69dba8110f8bf85936c1418d2b188",
+        "msg" : "Fix failing tests",
+        "paths" : [
+          {
+            "editType" : "edit",
+            "file" : "test/search/routes.js"
+          }
+        ]
+      },
+      {
+        "affectedPaths" : [
+          "server/resources/tags/helpers.js"
+        ],
+        "commitId" : "87aa7bccbebba60e0563204888ad31d8649c7a63",
+        "timestamp" : -1,
+        "author" : {
+          "absoluteUrl" : "***REMOVED***/user/***REMOVED***",
+          "fullName" : "Murphy Randle"
+        },
+        "comment" : "Curry function\n",
+        "date" : "2015-12-11 13:23:50 -0700",
+        "id" : "87aa7bccbebba60e0563204888ad31d8649c7a63",
+        "msg" : "Curry function",
+        "paths" : [
+          {
+            "editType" : "edit",
+            "file" : "server/resources/tags/helpers.js"
+          }
+        ]
+      },
+      {
+        "affectedPaths" : [
+          "client/app/search/include-retire.jsx"
+        ],
+        "commitId" : "67f35268b345f55035e34810fe6edcd72053133e",
+        "timestamp" : -1,
+        "author" : {
+          "absoluteUrl" : "***REMOVED***/user/***REMOVED***",
+          "fullName" : "Murphy Randle"
+        },
+        "comment" : "Use HTML for in include-retire\n",
+        "date" : "2015-12-11 13:25:02 -0700",
+        "id" : "67f35268b345f55035e34810fe6edcd72053133e",
+        "msg" : "Use HTML for in include-retire",
+        "paths" : [
+          {
+            "editType" : "edit",
+            "file" : "client/app/search/include-retire.jsx"
+          }
+        ]
+      },
+      {
+        "affectedPaths" : [
+          "client/app/gadgets/data/specific/tags/tags.jsx"
+        ],
+        "commitId" : "429037b211b3b9fb7156bcc9ea3ca6b7ed675358",
+        "timestamp" : -1,
+        "author" : {
+          "absoluteUrl" : "***REMOVED***/user/***REMOVED***",
+          "fullName" : "Murphy Randle"
+        },
+        "comment" : "Require -> import\n",
+        "date" : "2015-12-11 13:26:06 -0700",
+        "id" : "429037b211b3b9fb7156bcc9ea3ca6b7ed675358",
+        "msg" : "Require -> import",
+        "paths" : [
+          {
+            "editType" : "edit",
+            "file" : "client/app/gadgets/data/specific/tags/tags.jsx"
+          }
+        ]
+      },
+      {
+        "affectedPaths" : [
+          "server/resources/tags/helpers.js"
+        ],
+        "commitId" : "c6d6dd53e1fa6a4270d35027599cd63395f176d9",
+        "timestamp" : -1,
+        "author" : {
+          "absoluteUrl" : "***REMOVED***/user/***REMOVED***",
+          "fullName" : "Murphy Randle"
+        },
+        "comment" : "Whoops, syntax error\n",
+        "date" : "2015-12-11 13:32:35 -0700",
+        "id" : "c6d6dd53e1fa6a4270d35027599cd63395f176d9",
+        "msg" : "Whoops, syntax error",
+        "paths" : [
+          {
+            "editType" : "edit",
+            "file" : "server/resources/tags/helpers.js"
+          }
+        ]
+      },
+      {
+        "affectedPaths" : [
+          "client/app/gadgets/data/specific/tags/tags.jsx"
+        ],
+        "commitId" : "3708c08bb730ce15daafc98ab4fd944a026bd3e5",
+        "timestamp" : -1,
+        "author" : {
+          "absoluteUrl" : "***REMOVED***/user/***REMOVED***",
+          "fullName" : "Murphy Randle"
+        },
+        "comment" : "Extract pure functions\n",
+        "date" : "2015-12-11 13:32:43 -0700",
+        "id" : "3708c08bb730ce15daafc98ab4fd944a026bd3e5",
+        "msg" : "Extract pure functions",
+        "paths" : [
+          {
+            "editType" : "edit",
+            "file" : "client/app/gadgets/data/specific/tags/tags.jsx"
+          }
+        ]
+      },
+      {
+        "affectedPaths" : [
+          "client/app/gadgets/data/specific/tags/tags.jsx"
+        ],
+        "commitId" : "a1a57d58c84df494d945d3824115cb178bb32295",
+        "timestamp" : -1,
+        "author" : {
+          "absoluteUrl" : "***REMOVED***/user/***REMOVED***",
+          "fullName" : "Murphy Randle"
+        },
+        "comment" : "Remove unnecessary bind\n",
+        "date" : "2015-12-11 13:35:06 -0700",
+        "id" : "a1a57d58c84df494d945d3824115cb178bb32295",
+        "msg" : "Remove unnecessary bind",
+        "paths" : [
+          {
+            "editType" : "edit",
+            "file" : "client/app/gadgets/data/specific/tags/tags.jsx"
+          }
+        ]
+      },
+      {
+        "affectedPaths" : [
+          "client/app/gadgets/data/specific/tags/tags.istyl",
+          "client/app/gadgets/data/specific/tags/tags.jsx"
+        ],
+        "commitId" : "eb3c42bade6c5f454c3f7f95a57e980b531adf66",
+        "timestamp" : -1,
+        "author" : {
+          "absoluteUrl" : "***REMOVED***/user/***REMOVED***",
+          "fullName" : "Murphy Randle"
+        },
+        "comment" : "Improve accessibility of buttons and list interaction\n",
+        "date" : "2015-12-11 14:11:32 -0700",
+        "id" : "eb3c42bade6c5f454c3f7f95a57e980b531adf66",
+        "msg" : "Improve accessibility of buttons and list interaction",
+        "paths" : [
+          {
+            "editType" : "edit",
+            "file" : "client/app/gadgets/data/specific/tags/tags.jsx"
+          },
+          {
+            "editType" : "edit",
+            "file" : "client/app/gadgets/data/specific/tags/tags.istyl"
+          }
+        ]
+      },
+      {
+        "affectedPaths" : [
+          "client/app/gadgets/data/specific/tags/tags.istyl"
+        ],
+        "commitId" : "8e2404f5647f9a5f787cc5efae701b96acad44b6",
+        "timestamp" : -1,
+        "author" : {
+          "absoluteUrl" : "***REMOVED***/user/***REMOVED***",
+          "fullName" : "Murphy Randle"
+        },
+        "comment" : "Too many semicolons\n",
+        "date" : "2015-12-11 14:12:11 -0700",
+        "id" : "8e2404f5647f9a5f787cc5efae701b96acad44b6",
+        "msg" : "Too many semicolons",
+        "paths" : [
+          {
+            "editType" : "edit",
+            "file" : "client/app/gadgets/data/specific/tags/tags.istyl"
+          }
+        ]
+      },
+      {
+        "affectedPaths" : [
+          "client/app/gadgets/data/specific/tags/tags.jsx"
+        ],
+        "commitId" : "518e64f2ac78bd424d805096b58dfff6d9e0bc56",
+        "timestamp" : -1,
+        "author" : {
+          "absoluteUrl" : "***REMOVED***/user/***REMOVED***",
+          "fullName" : "Murphy Randle"
+        },
+        "comment" : "No more approved proposals in the tag view\n",
+        "date" : "2015-12-11 14:15:34 -0700",
+        "id" : "518e64f2ac78bd424d805096b58dfff6d9e0bc56",
+        "msg" : "No more approved proposals in the tag view",
+        "paths" : [
+          {
+            "editType" : "edit",
+            "file" : "client/app/gadgets/data/specific/tags/tags.jsx"
+          }
+        ]
+      },
+      {
+        "affectedPaths" : [
+          "server/resources/tags/helpers.js",
+          "server/resources/_item/model.js"
+        ],
+        "commitId" : "1feedc9b769e13422e2526074cf638a55b61d460",
+        "timestamp" : -1,
+        "author" : {
+          "absoluteUrl" : "***REMOVED***/user/***REMOVED***",
+          "fullName" : "Murphy Randle"
+        },
+        "comment" : "Use a slow filter function on rethink for now. Use the index later.\n",
+        "date" : "2015-12-11 14:26:02 -0700",
+        "id" : "1feedc9b769e13422e2526074cf638a55b61d460",
+        "msg" : "Use a slow filter function on rethink for now. Use the index later.",
+        "paths" : [
+          {
+            "editType" : "edit",
+            "file" : "server/resources/tags/helpers.js"
+          },
+          {
+            "editType" : "edit",
+            "file" : "server/resources/_item/model.js"
+          }
+        ]
+      },
+      {
+        "affectedPaths" : [
+          "server/search/search.js",
+          "client/app/gadgets/data/specific/tags/tags.jsx",
+          "types/app-types.js",
+          "client/app/common/tagbot.jsx",
+          "server/lib/denormalizer.js",
+          "client/app/search/include-retire.jsx"
+        ],
+        "commitId" : "e6b7bf2a1cc64fa0e997528f8d4b662f04c735c9",
+        "timestamp" : -1,
+        "author" : {
+          "absoluteUrl" : "***REMOVED***/user/***REMOVED***",
+          "fullName" : "Murphy Randle"
+        },
+        "comment" : "Fix bug and flow errors\n",
+        "date" : "2015-12-11 15:32:53 -0700",
+        "id" : "e6b7bf2a1cc64fa0e997528f8d4b662f04c735c9",
+        "msg" : "Fix bug and flow errors",
+        "paths" : [
+          {
+            "editType" : "edit",
+            "file" : "types/app-types.js"
+          },
+          {
+            "editType" : "edit",
+            "file" : "client/app/search/include-retire.jsx"
+          },
+          {
+            "editType" : "edit",
+            "file" : "server/lib/denormalizer.js"
+          },
+          {
+            "editType" : "edit",
+            "file" : "server/search/search.js"
+          },
+          {
+            "editType" : "edit",
+            "file" : "client/app/common/tagbot.jsx"
+          },
+          {
+            "editType" : "edit",
+            "file" : "client/app/gadgets/data/specific/tags/tags.jsx"
+          }
+        ]
+      },
+      {
+        "affectedPaths" : [
+          "server/lib/denormalizer.js"
+        ],
+        "commitId" : "714c56cc54b61d0a38acbc353e54396e7d40f1b7",
+        "timestamp" : -1,
+        "author" : {
+          "absoluteUrl" : "***REMOVED***/user/***REMOVED***",
+          "fullName" : "Murphy Randle"
+        },
+        "comment" : "unused var\n",
+        "date" : "2015-12-11 15:38:19 -0700",
+        "id" : "714c56cc54b61d0a38acbc353e54396e7d40f1b7",
+        "msg" : "unused var",
+        "paths" : [
+          {
+            "editType" : "edit",
+            "file" : "server/lib/denormalizer.js"
+          }
+        ]
+      }
+    ],
+    "kind" : "git"
+  },
+  "culprits" : [
+    {
+      "absoluteUrl" : "***REMOVED***/user/***REMOVED***",
+      "fullName" : "Murphy Randle"
+    }
+  ]
+}
