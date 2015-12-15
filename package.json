@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon -w server/ server/index.js"
+    "start": "nodemon -w server/ server/index.js",
+    "build": "webpack --config webpack.config.js",
+    "watch": "webpack --watch --config webpack.config.js"
   },
   "author": "Jamison Dance <***REMOVED***@kuali.co> (http://***REMOVED***.dance)",
   "license": "ISC",
@@ -19,10 +21,12 @@
     "babel-register": "^6.3.13",
     "bluebird": "^3.0.6",
     "body-parser": "1.14.1",
+    "elm-webpack-loader": "^1.1.1",
     "express": "4.13.3",
     "lodash-fp": "^0.10.2",
     "moment": "^2.10.6",
-    "octokat": "0.4.15"
+    "octokat": "0.4.15",
+    "webpack": "^1.12.9"
   },
   "devDependencies": {
     "eslint": "^1.10.3",

@@ -7,6 +7,7 @@ import {getDeploys} from './jenkins'
 
 const app = express()
 app.use(body.json())
+app.use(express.static('client'))
 
 function handleError(handler) {
   return async function(req, res, next) {
