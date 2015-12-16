@@ -15,7 +15,7 @@ function handleError(handler) {
       let result = await handler(req, res, next)
       res.json(result)
     } catch (e) {
-      console.error('error doing stuff', e.stack)
+      console.error('error doing stuff', e)
       res.status(500).json({error: e.stack})
     }
   }

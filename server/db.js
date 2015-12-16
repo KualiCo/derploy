@@ -1,18 +1,19 @@
 // @flow
 
 import fs from 'fs'
-
-import Bluebird from 'bluebird'
-import github from 'octokat'
-import axios from 'axios'
-
 Bluebird.promisifyAll(fs)
+
+import axios from 'axios'
+import Bluebird from 'bluebird'
+import {find, get, head, last} from 'lodash'
+
+import {getUser, getCommit, getPR} from './github'
+
 
 type Build = {
   number: number,
   url: string
 }
-
 
 let db = {
   mostRecentBuild: null,
@@ -41,7 +42,6 @@ async function load() {
 }
 
 function getIdFromBuild(build: Build): string {
-  console.log('build is', build)
   const chunks = build.url.split('/')
   return chunks[chunks.length - 2]
 }
@@ -61,13 +61,99 @@ function fetchProject(project: string): Promise<Object> {
   }).then(res => res.data)
 }
 
-function fetchDeploy(project, id): Promise<Object> {
+async function augmentWithPrInfo(deploy: Object): Object {
+  const commitInfo = getDeployCommit(deploy)
+  if (!commitInfo) {
+    return Promise.resolve(deploy)
+  }
+
+  const pr = await getPrForCommitInfo(commitInfo)
+  if (pr) {
+    deploy.title = pr.title
+    deploy.description = pr.body
+  }
+
+  return deploy
+}
+
+type CommitInfo = {
+  hash: string,
+  owner: string,
+  repo: string
+}
+
+async function getPrForCommitInfo(commitInfo: CommitInfo): ?Object {
+  const commit = await getCommit(commitInfo.owner, commitInfo.repo, commitInfo.hash)
+
+  console.log('fetching', commitInfo)
+  console.log('commit is', commit)
+
+  if (isPrMergeCommit(commit)) {
+    return await getPrForCommit(commit, commitInfo)
+  }
+}
+
+function isPrMergeCommit(commit) {
+  return !!getPrNumber(commit)
+}
+
+function getPrForCommit(commit, commitInfo) {
+  const prNumber = getPrNumber(commit)
+  return getPR(commitInfo.owner, commitInfo.repo, prNumber)
+}
+
+function getPrNumber(commit) {
+  const message = commit.commit.message
+  const regexp = /Merge pull request #(\d+) from/
+  const results = regexp.exec(message) || []
+  return results[1]
+}
+
+function getDeployCommit(deploy): ?CommitInfo {
+  const builds = getBuildsByBranchName(deploy)
+  if (!builds) {
+    return null
+  }
+
+  const hash = builds.buildsByBranchName['origin/master'].revision.SHA1
+  const {owner, repo} = getRepoName(builds)
+  return {
+    hash,
+    owner,
+    repo
+  }
+}
+
+function getRemoteParts(builds) {
+  const remote = builds.remoteUrls[0]
+  return remote.split('/')
+}
+
+function getRepoName(builds) {
+  const remoteParts = getRemoteParts(builds)
+  const owner = remoteParts[remoteParts.length - 2]
+  const repo = head(last(remoteParts).split('.'))
+  return {owner, repo}
+}
+
+function getBuildsByBranchName(deploy): Object {
+  return find(deploy.actions, a => a.buildsByBranchName)
+}
+
+async function fetchDeploy(project, id): Object {
   console.log('fetching deploy', id)
-  return axios({
+  const {data: deploy} = await axios({
     url: `***REMOVED***/job/${project}/${id}/api/json`,
     auth: credentials()
-  }).then(res => res.data)
+  })
+  return await augmentWithPrInfo(deploy)
 }
+
+
+// todo: when parsing a deploy
+// get the commit it was for
+// if it was a merge commit, get the pr it as for
+// get the pr description and title
 
 export async function getGitHubUser(userName: string): Object {
   console.log('getting github user', userName, Object.keys(db.githubUsers))
@@ -76,7 +162,7 @@ export async function getGitHubUser(userName: string): Object {
     return user
   }
 
-  const gitHubUser = await github({disableHypermedia: true}).users(userName).fetch()
+  const gitHubUser = await getUser(userName)
   db.githubUsers[userName] = gitHubUser
 
   await write(db)

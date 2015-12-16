@@ -26,6 +26,8 @@ type GitHubUser = {
 }
 
 type Deploy = {
+  title: string,
+  description: string,
   user: GitHubUser,
   displayName: string,
   number: number,
@@ -83,6 +85,8 @@ async function getDeploy(build): Promise<Deploy> {
   let jenkinsUserName = last((get('culprits[0].absoluteUrl', build) || '').split('/'))
   let fullName = get('culprits[0].fullName', build) || ''
   let deploy = {
+    title: build.title,
+    description: build.description,
     user: await getGithubUser(jenkinsUserName, fullName),
     displayName: build.displayName,
     number: build.number,
