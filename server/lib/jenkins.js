@@ -4,6 +4,7 @@ import axios from 'axios'
 import {find, head, last} from 'lodash'
 
 import augmentWithPrInfo from './augment-deploy-with-pr'
+import {JENKINS_USER, JENKINS_KEY} from '../config'
 
 type Build = {
   number: number,
@@ -17,13 +18,12 @@ function getIdFromBuild(build: Build): string {
 
 function credentials() {
   return {
-    username: '***REMOVED***',
-    password: '***REMOVED***'
+    username: JENKINS_USER,
+    password: JENKINS_KEY
   }
 }
 
 function fetchProject(project: string): Promise<Object> {
-  console.log('fetching project')
   return axios({
     url: `***REMOVED***/job/${project}/api/json`,
     auth: credentials()

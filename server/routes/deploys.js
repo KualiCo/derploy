@@ -1,13 +1,15 @@
 // @flow
 
 import {handleError} from './helpers'
-import {getDeploys as getDeploysFromDb} from '../jenkins'
+import Deploys from '../models/deploys'
 
 // TODO: do i return promises, or just return results?
 function getDeploys(req) {
-  return getDeploysFromDb(1)
+  let date = req.params.date || Date.now()
+  return Deploys.getForWeek(date)
 }
 
 export default function deployRoutes(app: any) {
+  // can take a ?date=some-date query param
   app.get('/deploys', handleError(getDeploys))
 }

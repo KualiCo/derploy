@@ -6,8 +6,8 @@ export function handleError(handler: Function): Function {
       let result = await handler(req, res, next)
       res.json(result)
     } catch (e) {
-      console.error('error doing stuff', e)
-      res.status(500).json({error: e.stack})
+      console.error('error doing stuff', e.stack || e)
+      res.status(500).json({error: e.stack || e})
     }
   }
 }
