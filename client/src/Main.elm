@@ -4,7 +4,8 @@ import Actions exposing (Action)
 import Ajax exposing (fetchDeploys)
 import Deploy exposing (Deploy)
 import Effects exposing (Effects, Never)
-import Html exposing (div, button, text, Html)
+import Html exposing (div, button, text, Html, h1, h2)
+import Html.Attributes exposing (class)
 import Maybe exposing (Maybe)
 import StartApp
 import Signal exposing (Address)
@@ -49,13 +50,46 @@ init =
 view : Address Action -> Model -> Html
 view address model =
     div
-        []
-        [ div []
-              (List.map
-                (Deploy.view
-                  (Signal.forwardTo address (Actions.DeployAction 1)))
-              model.deploys)
+        [class "container"]
+        [ h1 [] [ text "CM Stats" ]
+        , div [class "row" ]
+            [ div [ class "deploys" ]
+                [ deployHeader model.deploys
+                    , div [class "deploy-rows"]
+                      (List.map
+                        (Deploy.view
+                          (Signal.forwardTo address (Actions.DeployAction 1)))
+                      model.deploys)
+                ]
+            , div [ class "sprint" ]
+                [ deployHeader model.deploys
+                , h1 [] [text "BUTTS"]
+                ]
+            ]
         ]
+
+deployHeader : List Deploy.Model -> Html
+deployHeader deploys =
+  div [ class "deploys-header" ]
+      [ deployCount (List.length deploys)
+      , deploysToday (List.head deploys)
+      ]
+
+deployCount : Int -> Html
+deployCount count =
+  div [ class "deploy-count"] [ text (toString count) ]
+
+deploysToday : Maybe Deploy.Model -> Html
+deploysToday deploy =
+  div [ class "deploys-today"]
+    [ h2 [] [ text "Deploys Today" ]
+    -- TODO: How to format this correctly?
+    , div [] [ text
+      (case deploy of
+        Just d -> "Wednesday, December 15th, 2015"
+        Nothing -> " --- ")
+      ]
+    ]
 
 
 update : Action -> Model -> ( Model, Effects Action )
