@@ -31,17 +31,19 @@ function fetchProject(project: string): Promise<Object> {
 
 export async function getBuildsNewerThan(
   project: string,
-  newestBuildIdFromDb: string
+  newestBuildIdFromDb: ?string
 ): Promise<Array<Object>> {
 
   let fetchedProject = await fetchProject(project)
   let builds = fetchedProject.builds || []
+  console.log('builds is', builds)
   // no builds, do nahthing
   if (builds.length == 0) {
     return Promise.resolve([])
   }
 
   let newestBuildId = getIdFromBuild(builds[0])
+  console.log('newestBuildId', newestBuildId)
   if (newestBuildIdFromDb === newestBuildId) {
     return Promise.resolve([])
   }
@@ -50,6 +52,7 @@ export async function getBuildsNewerThan(
     .filter(buildNumber => buildNumber > newestBuildIdFromDb)
 
   let newBuilds = []
+  //newBuilds.push(await fetchDeploy(project, newerBuildNumbers[0]))
   for (let buildNumber of newerBuildNumbers) {
     newBuilds.push(await fetchDeploy(project, buildNumber))
   }

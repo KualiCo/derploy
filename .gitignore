@@ -2,3 +2,4 @@ node_modules
 db.json
 elm-stuff
 client/build
+token.json

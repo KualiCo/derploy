@@ -18,30 +18,28 @@ const DeploySchema = new Schema({
 DeploySchema.statics.getForWeek = async function(date, project='STU-CM-Build-Master') {
   await this.updateDeploysIfNotUpToDate(project)
   let weekDay = moment(date)
-  let startOfWeek = weekDay.startOf('week').valueOf
-  let endOfWeek = weekDay.endOf('week').valueOf
+  let startOfWeek = weekDay.startOf('week').valueOf()
+  let endOfWeek = weekDay.endOf('week').valueOf()
   return this.find({
-    project,
-    timestamp: {
-      $and: [
-        {$gte: startOfWeek},
-        {$lte: endOfWeek}
-      ]
-    }
+    $and: [
+      {project},
+      {timestamp: {$gte: startOfWeek}},
+      {timestamp: {$lte: endOfWeek}}
+    ]
   }).sort({timestamp: -1})
 }
 
-DeploySchema.statics.getLastId = function(project) {
-  return this.findOne({
-    project
-  })
+DeploySchema.statics.getLastId = async function(project) {
+  let newestDeploy = await this.findOne({project}) || {_id: 0}
+  return newestDeploy._id
 }
 
 DeploySchema.statics.updateDeploysIfNotUpToDate = async function(project) {
-  console.log('CALLING UPDATE DEPLOYS IF NOT UP TO DATE')
-  console.log('THIS IS', this)
   let newestBuildId = await this.getLastId(project)
+  console.log('NEWEST BUILD ID IS', newestBuildId)
   let newerBuilds = await getBuildsNewerThan(project, newestBuildId)
+
+  console.log('newer builds is', newerBuilds)
 
   if (newerBuilds.length == 0) {
     return
@@ -53,7 +51,7 @@ DeploySchema.statics.updateDeploysIfNotUpToDate = async function(project) {
     builds.push(deploy)
   }
 
-  return await this.insert(builds)
+  return await this.create(builds)
 }
 
 //DeploySchema.statics.getStats = function(startDate) {

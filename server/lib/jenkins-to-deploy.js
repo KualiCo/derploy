@@ -30,7 +30,8 @@ export type Deploy = {
   result: string,
   timestamp: Timestamp,
   url: string,
-  commits: Array<Commit>
+  commits: Array<Commit>,
+  project: string
 }
 
 const JENKINS_TO_GITHUB = {
@@ -74,6 +75,11 @@ function parseChangeSet(changeSet): Array<Commit> {
   })
 }
 
+function getProject(build: Object): string {
+  const urlParts = build.url.split('/')
+  return urlParts[urlParts.length - 3]
+}
+
 export default async function buildToDeploy(build: Object): Promise<Deploy> {
   let jenkinsUserName = last(get(build, 'culprits[0].absoluteUrl', '').split('/'))
   let fullName = get(build, 'culprits[0].fullName', '')
@@ -90,6 +96,7 @@ export default async function buildToDeploy(build: Object): Promise<Deploy> {
     timestamp: build.timestamp,
     url: build.url,
     commits: parseChangeSet(build.changeSet),
+    project: getProject(build)
   }
 
   return deploy
