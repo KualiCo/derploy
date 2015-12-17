@@ -15,10 +15,8 @@ const DeploySchema = new Schema({
   _id: Number
 }, {strict: false})
 
-// What do I need? I need a way to get all deploys for a week
 DeploySchema.statics.getForWeek = async function(date, project='STU-CM-Build-Master') {
   await this.updateDeploysIfNotUpToDate(project)
-  // TODO: turn the date in to a range for the week.
   let weekDay = moment(date)
   let startOfWeek = weekDay.startOf('week').valueOf
   let endOfWeek = weekDay.endOf('week').valueOf
@@ -40,6 +38,8 @@ DeploySchema.statics.getLastId = function(project) {
 }
 
 DeploySchema.statics.updateDeploysIfNotUpToDate = async function(project) {
+  console.log('CALLING UPDATE DEPLOYS IF NOT UP TO DATE')
+  console.log('THIS IS', this)
   let newestBuildId = await this.getLastId(project)
   let newerBuilds = await getBuildsNewerThan(project, newestBuildId)
 

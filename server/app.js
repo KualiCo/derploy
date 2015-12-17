@@ -4,6 +4,7 @@ import body from 'body-parser'
 import express from 'express'
 
 import deployRoutes from './routes/deploys'
+import {PORT} from './config'
 
 const app = express()
 
@@ -14,6 +15,6 @@ app.use(express.static('client'))
 deployRoutes(app)
 
 export default function startApp() {
-  console.log('listening woooo')
-  app.listen(2999)
+  console.log(`listening on port ${PORT}`)
+  app.listen(PORT)
 }

@@ -11,9 +11,8 @@ type Build = {
   url: string
 }
 
-function getIdFromBuild(build: Build): string {
-  const chunks = build.url.split('/')
-  return chunks[chunks.length - 2]
+function getIdFromBuild(build: Build): number {
+  return build.number
 }
 
 function credentials() {
@@ -32,7 +31,7 @@ function fetchProject(project: string): Promise<Object> {
 
 export async function getBuildsNewerThan(
   project: string,
-  buildId: string
+  newestBuildIdFromDb: string
 ): Promise<Array<Object>> {
 
   let fetchedProject = await fetchProject(project)
@@ -43,7 +42,6 @@ export async function getBuildsNewerThan(
   }
 
   let newestBuildId = getIdFromBuild(builds[0])
-  let newestBuildIdFromDb = await this.getLastId(project)
   if (newestBuildIdFromDb === newestBuildId) {
     return Promise.resolve([])
   }
