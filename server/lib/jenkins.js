@@ -3,7 +3,7 @@
 import axios from 'axios'
 import {find, head, last} from 'lodash'
 
-import {getCommit, getPR, getUser} from './github'
+import augmentWithPrInfo from './augment-deploy-with-pr'
 
 type Build = {
   number: number,
@@ -28,82 +28,6 @@ function fetchProject(project: string): Promise<Object> {
     url: `***REMOVED***/job/${project}/api/json`,
     auth: credentials()
   }).then(res => res.data)
-}
-
-async function augmentWithPrInfo(deploy: Object): Object {
-  const commitInfo = getDeployCommit(deploy)
-  if (!commitInfo) {
-    return Promise.resolve(deploy)
-  }
-
-  const pr = await getPrForCommitInfo(commitInfo)
-  if (pr) {
-    deploy.title = pr.title
-    deploy.description = pr.body
-  }
-
-  return deploy
-}
-
-type CommitInfo = {
-  hash: string,
-  owner: string,
-  repo: string
-}
-
-async function getPrForCommitInfo(commitInfo: CommitInfo): ?Object {
-  const commit = await getCommit(commitInfo.owner, commitInfo.repo, commitInfo.hash)
-
-  if (isPrMergeCommit(commit)) {
-    return await getPrForCommit(commit, commitInfo)
-  }
-}
-
-function isPrMergeCommit(commit) {
-  return !!getPrNumber(commit)
-}
-
-function getPrForCommit(commit, commitInfo) {
-  const prNumber = getPrNumber(commit)
-  return getPR(commitInfo.owner, commitInfo.repo, prNumber)
-}
-
-function getPrNumber(commit) {
-  const message = commit.commit.message
-  const regexp = /Merge pull request #(\d+) from/
-  const results = regexp.exec(message) || []
-  return results[1]
-}
-
-function getDeployCommit(deploy): ?CommitInfo {
-  const builds = getBuildsByBranchName(deploy)
-  if (!builds) {
-    return null
-  }
-
-  const hash = builds.buildsByBranchName['origin/master'].revision.SHA1
-  const {owner, repo} = getRepoName(builds)
-  return {
-    hash,
-    owner,
-    repo
-  }
-}
-
-function getRemoteParts(builds) {
-  const remote = builds.remoteUrls[0]
-  return remote.split('/')
-}
-
-function getRepoName(builds) {
-  const remoteParts = getRemoteParts(builds)
-  const owner = remoteParts[remoteParts.length - 2]
-  const repo = head(last(remoteParts).split('.'))
-  return {owner, repo}
-}
-
-function getBuildsByBranchName(deploy): Object {
-  return find(deploy.actions, a => a.buildsByBranchName)
 }
 
 export async function getBuildsNewerThan(
@@ -135,12 +59,11 @@ export async function getBuildsNewerThan(
   return newBuilds
 }
 
-async function fetchDeploy(project: string, id: string): Object {
-  console.log('fetching deploy', id)
-  const {data: deploy} = await axios({
+function fetchDeploy(project: string, id: string): Promise<Object> {
+  return axios({
     url: `***REMOVED***/job/${project}/${id}/api/json`,
     auth: credentials()
   })
-  return await augmentWithPrInfo(deploy)
+  .then(r => r.data)
+  .then(augmentWithPrInfo)
 }
-

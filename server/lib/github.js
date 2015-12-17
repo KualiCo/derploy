@@ -5,8 +5,18 @@ import axios from 'axios'
   // TODO: get this token from some config files
 const TOKEN = '***REMOVED***'
 
+let userCache = {}
 export function getUser(userName: string): Promise<Object> {
-  return axios.get(`https://api.github.com/users/${userName}`).then(r => r.data)
+  if (userCache[userName]) {
+    return Promise.resolve(userCache[userName])
+  }
+
+  return axios.get(`https://api.github.com/users/${userName}`)
+  .then(r => r.data)
+  .then(user => {
+    userCache[userName] = user
+    return user
+  })
 }
 
 export function getCommit(org: string, repo: string, id: string): Promise<Object> {

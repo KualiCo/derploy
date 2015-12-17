@@ -5,13 +5,14 @@ import mongoose from 'mongoose'
 import moment from 'moment'
 
 import {getBuildsNewerThan} from '../lib/jenkins'
+import buildToDeploy from '../lib/jenkins-to-deploy'
 
 const Schema = mongoose.Schema
 
 const DeploySchema = new Schema({
   project: String,
   timestamp: Date,
-  _id: String
+  _id: Number
 }, {strict: false})
 
 // What do I need? I need a way to get all deploys for a week
@@ -35,7 +36,7 @@ DeploySchema.statics.getForWeek = async function(date, project='STU-CM-Master') 
 DeploySchema.statics.getLastId = function(project='STU-CM-Master') {
   return this.findOne({
     project
-  }).sort({_id: -1})
+  })
 }
 
 DeploySchema.statics.updateDeploysIfNotUpToDate = async function(project) {
@@ -46,13 +47,13 @@ DeploySchema.statics.updateDeploysIfNotUpToDate = async function(project) {
     return
   }
 
-  newerBuilds = newerBuilds.map(b => {
-    b._id = b.id
-    delete b.id
-  })
+  let builds = []
+  for (let b of newerBuilds) {
+    let deploy = await buildToDeploy(b)
+    builds.push(deploy)
+  }
 
-  // TODO: do I transform the data here?
-  return await this.insert(newerBuilds)
+  return await this.insert(builds)
 }
 
 //DeploySchema.statics.getStats = function(startDate) {
