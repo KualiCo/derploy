@@ -3,8 +3,9 @@ module Deploy (..) where
 import Html exposing (Html, div, text, img, span)
 import Html.Attributes exposing (src, class)
 import Http exposing (Error)
-import Json.Decode exposing (Decoder, succeed, (:=), list, string, object3, object5, object8, int)
+import Json.Decode exposing (Decoder, succeed, (:=), list, string, object3, object5, object8, int, succeed)
 import Helpers exposing ((|:))
+import Time exposing (Time)
 
 type alias GitHubUser =
   { fullName: String
@@ -45,6 +46,7 @@ type alias Deploy =
   , duration: Int
   , result: String
   , timestamp: Int
+  , relativeTime: String
   , url: String
   , commits: List Commit
   }
@@ -60,12 +62,53 @@ deployDecoder =
     |: ("duration" := int)
     |: ("result" := string)
     |: ("timestamp" := int)
+    |: ("relativeTime" := succeed "")
     |: ("url" := string)
     |: ("commits" := (list commitDecoder))
 
 type Action = Expand | Collapse
 
 type alias Model = Deploy
+
+updateRelativeTime : Time -> Deploy -> Deploy
+updateRelativeTime currentTime deploy =
+  let
+    relativeTime = getRelativeTime currentTime deploy.timestamp
+  in
+    { deploy | relativeTime = relativeTime }
+
+getRelativeTime : Time -> Int -> String
+getRelativeTime now time =
+  let
+    nowAsInt = round now
+    difference = nowAsInt - time
+    oneMinute = 1000 * 60
+    oneHour = oneMinute * 60
+    oneDay = oneHour * 24
+  in
+    if difference < 0 then
+      "YOU ARE IN THE FUTURE"
+    else if  difference < oneDay && difference > oneHour then
+      let
+        hours = difference // oneHour
+      in
+        (toString hours) ++ (pluralize hours " hour") ++ " ago"
+    else if difference < oneHour && difference > oneMinute then
+      let minutes = difference // oneMinute
+      in
+        (toString minutes) ++ (pluralize minutes " minute") ++ " ago"
+    else if difference < oneMinute then
+      "less than a minute ago"
+    else
+      "Something has gone horribly wrong"
+
+pluralize : Int -> String -> String
+pluralize num str =
+  if num == 1
+  then
+    str ++ "s"
+  else
+    str
 
 update : Action -> Model -> Model
 update action model =

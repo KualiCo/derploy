@@ -10,6 +10,7 @@ import Maybe exposing (Maybe)
 import StartApp
 import Signal exposing (Address)
 import Task exposing (Task)
+import Time exposing (Time)
 
 
 -- ok, what do i need to do?
@@ -18,10 +19,11 @@ import Task exposing (Task)
 -- ok, now i have json parsing. how do i make an http request and get
 -- the results?
 
+everyMinute = Signal.map (\t -> Actions.UpdateTime t) (Time.every Time.minute)
 
 app : StartApp.App Model
 app =
-    StartApp.start { init = init, view = view, update = update, inputs = [] }
+    StartApp.start { init = init, view = view, update = update, inputs = [everyMinute] }
 
 
 port tasks : Signal (Task Never ())
@@ -36,13 +38,14 @@ main =
 
 type alias Model =
     { deploys : List Deploy.Model
+    , currentTime : Time
     , err : Maybe String
     }
 
 
 init : ( Model, Effects Action )
 init =
-    ( Model [] Nothing
+    ( Model [] 0.0 Nothing
     , fetchDeploys Actions.LoadDeploys Actions.ErrorLoading "http://localhost:2999/deploys"
     )
 
@@ -62,7 +65,7 @@ view address model =
                       model.deploys)
                 ]
             , div [ class "sprint" ]
-                [ deployHeader model.deploys
+                [ sprintHeader model.deploys
                 , h1 [] [text "BUTTS"]
                 ]
             ]
@@ -74,6 +77,20 @@ deployHeader deploys =
       [ deployCount (List.length deploys)
       , deploysToday (List.head deploys)
       ]
+
+sprintHeader : List Deploy.Model -> Html
+sprintHeader deploys =
+  div [ class "deploys-header"
+      ,class "sprint-header"
+      ]
+      [ sprintCount deploys
+      , deploysToday (List.head deploys)
+      ]
+
+sprintCount : List Deploy.Model -> Html
+sprintCount deploys =
+    -- hard code the date, TODO: FIGURE OUT HOW TO FILTER BY CURRENT DATE?
+  div [ class "deploy-count"] [ text <| toString <| List.length deploys ]
 
 deployCount : Int -> Html
 deployCount count =
@@ -91,16 +108,21 @@ deploysToday deploy =
       ]
     ]
 
-
 update : Action -> Model -> ( Model, Effects Action )
 update action model =
     case action of
-        Actions.LoadDeploys loadedDeploys ->
-            ( { model | deploys = loadedDeploys, err = Nothing }, Effects.none )
-
-        Actions.ErrorLoading errorString ->
-            ( { model | err = Just errorString }, Effects.none )
-
-        Actions.DeployAction id deployAction ->
-            -- TODO: forward action on to individual deploy
-            ( model, Effects.none )
+      Actions.LoadDeploys loadedDeploys ->
+        ( { model | deploys = loadedDeploys, err = Nothing }, Effects.none )
+      Actions.ErrorLoading errorString ->
+        ( { model | err = Just errorString }, Effects.none )
+      Actions.DeployAction id deployAction ->
+        -- TODO: forward action on to individual deploy
+        ( model, Effects.none )
+      Actions.UpdateTime t ->
+        ( model, Effects.none )
+        --( { model
+            --| currentTime = t
+            --, deploys = List.map (Deploy.updateRelativeTime t) model.deploys
+          --}
+        --, Effects.none
+        --)
