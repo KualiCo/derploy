@@ -13,13 +13,9 @@ import Task exposing (Task)
 import Time exposing (Time)
 
 
--- ok, what do i need to do?
--- for now, just do it all in one file. somehow make the HTTP request,
--- parse the JSON
--- ok, now i have json parsing. how do i make an http request and get
--- the results?
-
+everyMinute : Signal Action
 everyMinute = Signal.map (\t -> Actions.UpdateTime t) (Time.every Time.minute)
+
 
 app : StartApp.App Model
 app =
@@ -71,12 +67,14 @@ view address model =
             ]
         ]
 
+
 deployHeader : List Deploy.Model -> Html
 deployHeader deploys =
   div [ class "deploys-header" ]
       [ deployCount (List.length deploys)
       , deploysToday (List.head deploys)
       ]
+
 
 sprintHeader : List Deploy.Model -> Html
 sprintHeader deploys =
@@ -87,14 +85,17 @@ sprintHeader deploys =
       , deploysToday (List.head deploys)
       ]
 
+
 sprintCount : List Deploy.Model -> Html
 sprintCount deploys =
     -- hard code the date, TODO: FIGURE OUT HOW TO FILTER BY CURRENT DATE?
   div [ class "deploy-count"] [ text <| toString <| List.length deploys ]
 
+
 deployCount : Int -> Html
 deployCount count =
   div [ class "deploy-count"] [ text (toString count) ]
+
 
 deploysToday : Maybe Deploy.Model -> Html
 deploysToday deploy =
@@ -107,6 +108,7 @@ deploysToday deploy =
         Nothing -> " --- ")
       ]
     ]
+
 
 update : Action -> Model -> ( Model, Effects Action )
 update action model =
