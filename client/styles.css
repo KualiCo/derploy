@@ -22,6 +22,17 @@ body {
   width: 50%;
 }
 
+@media (max-width: 750px) {
+  .row {
+    flex-direction: column;
+  }
+
+  .deploys, .sprint {
+    width: 100%;
+  }
+}
+
+
 .deploys-header {
   background-color: #31ABDF;
   color: #FFFFFF;
@@ -62,4 +73,30 @@ body {
 
 .deploy-container:hover {
   background-color: white;
+}
+
+.deploys-header {
+  display: flex;
+}
+
+.deploy-count {
+  font-size: 1.3em;
+  padding: 0.6em;
+}
+
+.deploys-today {
+  margin-left: 0.5em;
+}
+
+.deploys-today h2 {
+  margin: 0;
+  padding: 0;
+  font-size: 1.5em;
+}
+
+.deploys-today div {
+  margin: 0;
+  padding: 0;
+  font-size: 0.5em;
+  color: #BCE4F3;
 }
