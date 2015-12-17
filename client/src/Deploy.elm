@@ -133,6 +133,6 @@ view address deploy =
                     , div [] [text deploy.title]
                     ]
                 , div [ class "right-deploy" ]
-                    [ text (toString deploy.relativeTime) ]
+                    [ text deploy.relativeTime ]
         ]
       ]
