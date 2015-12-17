@@ -8,10 +8,9 @@ import moment from 'moment'
 
 import * as db from './db'
 
-
 type Timestamp = number
 
-type Commit = {
+export type Commit = {
   affectedPaths: Array<string>,
   commitId: string,
   message: string,
@@ -19,13 +18,13 @@ type Commit = {
   timestamp: Timestamp,
 }
 
-type GitHubUser = {
+export type GitHubUser = {
   fullName: string,
   userName: string,
   avatarUrl: string
 }
 
-type Deploy = {
+export type Deploy = {
   title: string,
   description: string,
   user: GitHubUser,
@@ -46,7 +45,6 @@ const JENKINS_TO_GITHUB = {
   ***REMOVED***: 'omginbd'
 }
 
-
 const PARTY_PARROT = 'https://emoji.slack-edge.com/T02M85ECP/partyparrot/27cfbe1c58952b0f.gif'
 async function getGithubUser(jenkinsUserName: string, fullName: string): Promise<GitHubUser> {
   const githubName = JENKINS_TO_GITHUB[jenkinsUserName]
@@ -66,7 +64,6 @@ async function getGithubUser(jenkinsUserName: string, fullName: string): Promise
   }
   return Promise.resolve(user)
 }
-
 
 function parseChangeSet(changeSet): Array<Commit> {
   const changes = get('items', changeSet, [])
@@ -100,7 +97,7 @@ async function getDeploy(build): Promise<Deploy> {
   return deploy
 }
 
-export async function getDeploys(day: string): Promise<Array<Deploy>> {
+export async function getDeploys(day: number): Promise<Array<Deploy>> {
   let builds = await db.getHydratedBuilds()
   console.log('WOOOOOOOOOOOO GOT HYDRATED BUILDS')
   let thisMorning = moment().hour(0).minute(0).subtract(10, 'days').valueOf()

@@ -1,44 +1,13 @@
 // @flow
 
-import fs from 'fs'
-Bluebird.promisifyAll(fs)
-
 import axios from 'axios'
-import Bluebird from 'bluebird'
-import {find, get, head, last} from 'lodash'
+import {find, head, last} from 'lodash'
 
-import {getUser, getCommit, getPR} from './lib/github'
-
+import {getCommit, getPR, getUser} from './github'
 
 type Build = {
   number: number,
   url: string
-}
-
-let db = {
-  mostRecentBuild: null,
-  builds: {},
-  githubUsers: {}
-}
-
-const DB_FILENAME = 'db.json'
-
-function write(db) {
-  // $FlowIssue promisify
-  return fs.writeFileAsync(DB_FILENAME, JSON.stringify(db))
-}
-
-async function load() {
-  try {
-    // $FlowIssue promisify
-    let diskDb = await fs.readFileAsync(DB_FILENAME)
-    db = JSON.parse(diskDb)
-    return db
-  } catch (e) {
-    // $FlowIssue promisify
-    await fs.writeFileAsync(DB_FILENAME, JSON.stringify(db))
-    return db
-  }
 }
 
 function getIdFromBuild(build: Build): string {
@@ -137,7 +106,36 @@ function getBuildsByBranchName(deploy): Object {
   return find(deploy.actions, a => a.buildsByBranchName)
 }
 
-async function fetchDeploy(project, id): Object {
+export async function getBuildsNewerThan(
+  project: string,
+  buildId: string
+): Promise<Array<Object>> {
+
+  let fetchedProject = await fetchProject(project)
+  let builds = fetchedProject.builds || []
+  // no builds, do nahthing
+  if (builds.length == 0) {
+    return Promise.resolve([])
+  }
+
+  let newestBuildId = getIdFromBuild(builds[0])
+  let newestBuildIdFromDb = await this.getLastId(project)
+  if (newestBuildIdFromDb === newestBuildId) {
+    return Promise.resolve([])
+  }
+
+  let newerBuildNumbers = builds.map(getIdFromBuild)
+    .filter(buildNumber => buildNumber > newestBuildIdFromDb)
+
+  let newBuilds = []
+  for (let buildNumber of newerBuildNumbers) {
+    newBuilds.push(await fetchDeploy(project, buildNumber))
+  }
+
+  return newBuilds
+}
+
+async function fetchDeploy(project: string, id: string): Object {
   console.log('fetching deploy', id)
   const {data: deploy} = await axios({
     url: `***REMOVED***/job/${project}/${id}/api/json`,
@@ -146,56 +144,3 @@ async function fetchDeploy(project, id): Object {
   return await augmentWithPrInfo(deploy)
 }
 
-
-// todo: when parsing a deploy
-// get the commit it was for
-// if it was a merge commit, get the pr it as for
-// get the pr description and title
-
-export async function getGitHubUser(userName: string): Object {
-  let user = db.githubUsers[userName]
-  if (user) {
-    console.log('found cached user, it is', user)
-    return user
-  }
-
-  const gitHubUser = await getUser(userName)
-  db.githubUsers[userName] = gitHubUser
-
-  await write(db)
-  return gitHubUser
-}
-
-export async function getHydratedBuilds(): Object {
-  // grab the builds from jenkins
-  // check if the newest one is newer than the one we have
-  // if so, grab all the newer ones
-  // store in db and save db
-  //
-  // return the builds
-  let project = await fetchProject('STU-CM-Build-Master')
-  let builds = project.builds || []
-  // no builds, do nahthing
-  if (builds.length == 0) {
-    return db.builds
-  }
-
-  let newestBuildId = getIdFromBuild(builds[0])
-  if (db.mostRecentBuild === newestBuildId) {
-    return db.builds
-  }
-
-  let newerBuildNumbers = builds.map(getIdFromBuild).filter(buildNumber => buildNumber > db.mostRecentBuild)
-
-  for (let buildNumber of newerBuildNumbers) {
-    db.builds[buildNumber] = await fetchDeploy('STU-CM-BUILD-Master', buildNumber)
-  }
-  console.log('######################done setting build numbers, db is now set woo######################')
-
-  db.mostRecentBuild = newerBuildNumbers[0]
-  await write(db)
-  console.log('done writing wooooo')
-  return db.builds
-}
-
-load()

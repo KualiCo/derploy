@@ -1,5 +1,12 @@
 [ignore]
 .*/node_modules/babel-core/
+.*/node_modules/fbjs/
+.*/node_modules/babylon/
+.*/node_modules/babel-generator/
+.*/node_modules/babel-helper.*/
+.*/node_modules/babel-template/
+.*/node_modules/babel-traverse/
+.*/node_modules/babel-types/
 .*/node_modules/babel-register/
 .*/node_modules/babel-preset.*/
 
