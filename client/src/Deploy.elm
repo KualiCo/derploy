@@ -1,5 +1,6 @@
 module Deploy (..) where
 
+import Debug exposing (log)
 import Html exposing (Html, div, text, img, span)
 import Html.Attributes exposing (src, class)
 import Http exposing (Error)
@@ -62,7 +63,7 @@ deployDecoder =
     |: ("duration" := int)
     |: ("result" := string)
     |: ("timestamp" := int)
-    |: ("relativeTime" := succeed "")
+    |: succeed ""
     |: ("url" := string)
     |: ("commits" := (list commitDecoder))
 
@@ -100,15 +101,18 @@ getRelativeTime now time =
     else if difference < oneMinute then
       "less than a minute ago"
     else
-      "Something has gone horribly wrong"
+      let
+        days = difference // oneDay
+      in
+        (toString days) ++ (pluralize days " day") ++ " ago"
 
 pluralize : Int -> String -> String
 pluralize num str =
   if num == 1
   then
-    str ++ "s"
-  else
     str
+  else
+    str ++ "s"
 
 update : Action -> Model -> Model
 update action model =
@@ -129,6 +133,6 @@ view address deploy =
                     , div [] [text deploy.title]
                     ]
                 , div [ class "right-deploy" ]
-                    [ text (toString deploy.timestamp) ]
+                    [ text (toString deploy.relativeTime) ]
         ]
       ]

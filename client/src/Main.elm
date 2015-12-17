@@ -14,7 +14,7 @@ import Time exposing (Time)
 
 
 everyMinute : Signal Action
-everyMinute = Signal.map (\t -> Actions.UpdateTime t) (Time.every Time.minute)
+everyMinute = Signal.map (\t -> Actions.UpdateTime t) (Time.every Time.second)
 
 
 app : StartApp.App Model
@@ -121,10 +121,9 @@ update action model =
         -- TODO: forward action on to individual deploy
         ( model, Effects.none )
       Actions.UpdateTime t ->
-        ( model, Effects.none )
-        --( { model
-            --| currentTime = t
-            --, deploys = List.map (Deploy.updateRelativeTime t) model.deploys
-          --}
-        --, Effects.none
-        --)
+        ( { model
+            | currentTime = t
+            , deploys = List.map (Deploy.updateRelativeTime t) model.deploys
+          }
+        , Effects.none
+        )
