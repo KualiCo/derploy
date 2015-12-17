@@ -85,9 +85,6 @@ type CommitInfo = {
 async function getPrForCommitInfo(commitInfo: CommitInfo): ?Object {
   const commit = await getCommit(commitInfo.owner, commitInfo.repo, commitInfo.hash)
 
-  console.log('fetching', commitInfo)
-  console.log('commit is', commit)
-
   if (isPrMergeCommit(commit)) {
     return await getPrForCommit(commit, commitInfo)
   }
@@ -156,9 +153,9 @@ async function fetchDeploy(project, id): Object {
 // get the pr description and title
 
 export async function getGitHubUser(userName: string): Object {
-  console.log('getting github user', userName, Object.keys(db.githubUsers))
   let user = db.githubUsers[userName]
   if (user) {
+    console.log('found cached user, it is', user)
     return user
   }
 
@@ -189,11 +186,9 @@ export async function getHydratedBuilds(): Object {
   }
 
   let newerBuildNumbers = builds.map(getIdFromBuild).filter(buildNumber => buildNumber > db.mostRecentBuild)
-  console.log('newerBuildNumbers are', newerBuildNumbers.length)
 
   for (let buildNumber of newerBuildNumbers) {
     db.builds[buildNumber] = await fetchDeploy('STU-CM-BUILD-Master', buildNumber)
-    console.log('done fetching', buildNumber)
   }
   console.log('######################done setting build numbers, db is now set woo######################')
 

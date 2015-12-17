@@ -1,11 +1,12 @@
 // @flow
 
-import express from 'express'
 import body from 'body-parser'
+import express from 'express'
 
 import {getDeploys} from './jenkins'
 
 const app = express()
+
 app.use(body.json())
 app.use(express.static('client'))
 

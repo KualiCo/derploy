@@ -6,6 +6,7 @@ the contents of those deploys are.
 
 ## TODO
 
+[] literally all of the ui lol
 [] Pull title and description from commit if the deploy commit isn't a pr merge
 [] use an actual db ya mook (but still use a seed file of some kind i guess)
-[] literally all of the ui lol
+[] use real config instead of hard-coded tokens that i have to expire now

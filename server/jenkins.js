@@ -62,7 +62,7 @@ async function getGithubUser(jenkinsUserName: string, fullName: string): Promise
   const user = {
     fullName,
     userName: githubName,
-    avatarUrl: gitHubUser.avatarUrl || PARTY_PARROT
+    avatarUrl: gitHubUser.avatar_url || PARTY_PARROT
   }
   return Promise.resolve(user)
 }
