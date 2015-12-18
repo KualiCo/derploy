@@ -1,10 +1,11 @@
 module Deploy (..) where
 
 import Debug exposing (log)
-import Html exposing (Html, div, text, img, span)
+import Html exposing (Html, div, text, img, span, button)
 import Html.Attributes exposing (src, class)
+import Html.Events exposing (onClick)
 import Http exposing (Error)
-import Json.Decode exposing (Decoder, succeed, (:=), list, string, object3, object5, object8, int, succeed)
+import Json.Decode exposing (Decoder, succeed, (:=), list, string, object3, object7, object8, int, succeed)
 import Helpers exposing ((|:))
 import Time exposing (Time)
 
@@ -27,29 +28,54 @@ type alias Commit =
   , message: String
   , author: String
   , timestamp: Int
+  , hash: String
+  , expanded: Bool
   }
 
 commitDecoder : Decoder Commit
 commitDecoder =
-  object5 Commit
+  object7 Commit
     ("affectedPaths" := (list string))
     ("commitId" := string)
     ("message" := string)
     ("author" := string)
     ("timestamp" := int)
+    ("hash" := string)
+    (succeed False)
 
 type alias Deploy =
   { user: GitHubUser
   , title: String
   , description: String
   , displayName: String
-  , number: Int
+  , id: Int
   , duration: Int
   , result: String
   , timestamp: Int
   , relativeTime: String
   , url: String
   , commits: List Commit
+  , expanded: Bool
+  }
+
+model : Deploy
+model =
+  { user =
+    { fullName = "NOTHING"
+    , userName = "NATHIN"
+    , avatarUrl = "http://NOPE.COM"
+    }
+  , title = ""
+  , description = ""
+  , displayName = ""
+  , id = 0
+  , duration = 0
+  , result = ""
+  , timestamp = 0
+  , relativeTime = ""
+  , url = ""
+  , commits = []
+  , expanded = False
   }
 
 deployDecoder : Decoder Deploy
@@ -59,17 +85,21 @@ deployDecoder =
     |: ("title" := string)
     |: ("description" := string)
     |: ("displayName" := string)
-    |: ("number" := int)
+    |: ("_id" := int)
     |: ("duration" := int)
     |: ("result" := string)
     |: ("timestamp" := int)
     |: succeed ""
     |: ("url" := string)
     |: ("commits" := (list commitDecoder))
+    |: succeed False
 
-type Action = Expand | Collapse
+
+type Action = Toggle | ToggleCommit String
+
 
 type alias Model = Deploy
+
 
 updateRelativeTime : Time -> Deploy -> Deploy
 updateRelativeTime currentTime deploy =
@@ -77,6 +107,7 @@ updateRelativeTime currentTime deploy =
     relativeTime = getRelativeTime currentTime deploy.timestamp
   in
     { deploy | relativeTime = relativeTime }
+
 
 getRelativeTime : Time -> Int -> String
 getRelativeTime now time =
@@ -106,6 +137,7 @@ getRelativeTime now time =
       in
         (toString days) ++ (pluralize days " day") ++ " ago"
 
+
 pluralize : Int -> String -> String
 pluralize num str =
   if num == 1
@@ -114,25 +146,63 @@ pluralize num str =
   else
     str ++ "s"
 
+
 update : Action -> Model -> Model
 update action model =
   case action of
-    Expand -> model
-    Collapse -> model
+    Toggle ->
+      { model |
+        expanded = not model.expanded
+      , commits = List.map
+          (\commit -> { commit | expanded = False } )
+          model.commits
+      }
+    ToggleCommit hash ->
+      { model |
+        commits = List.map
+          (\commit ->
+            if commit.hash == hash then
+              { commit | expanded = not commit.expanded }
+            else
+              commit
+          )
+          model.commits
+      }
+
 
 view : Signal.Address Action -> Deploy -> Html
 view address deploy =
   div [ class "centerer" ]
-      [ div [ class "deploy-container" ]
-        [
-          div [ class "left-deploy" ]
-                    [ img [ src deploy.user.avatarUrl
-                          , class "profile-pic"
-                          ]
-                        []
-                    , div [] [text deploy.title]
-                    ]
-                , div [ class "right-deploy" ]
-                    [ text deploy.relativeTime ]
-        ]
+    [ div [ class "deploy-container" ]
+      [
+        div [ class "left-deploy" ]
+          [ img
+            [ src deploy.user.avatarUrl
+            , class "profile-pic"
+            ]
+            []
+          , div []
+            [ text
+              (if deploy.expanded then
+                  "BUTTS"
+                else
+                  deploy.title
+              )
+            ]
+          ]
+        , div [ class "right-deploy" ]
+          [ text deploy.relativeTime
+          , button [ onClick address Toggle ] [ text ">" ]
+          ]
       ]
+    ]
+
+expandedDeploy : Deploy -> Html
+expandedDeploy deploy =
+  div []
+    [
+      div [ class "expanded-header" ]
+        [
+
+        ]
+    ]

@@ -11,7 +11,7 @@ const Schema = mongoose.Schema
 
 const DeploySchema = new Schema({
   project: String,
-  timestamp: Date,
+  timestamp: Number,
   _id: Number
 }, {strict: false})
 

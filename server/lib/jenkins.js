@@ -36,14 +36,12 @@ export async function getBuildsNewerThan(
 
   let fetchedProject = await fetchProject(project)
   let builds = fetchedProject.builds || []
-  console.log('builds is', builds)
   // no builds, do nahthing
   if (builds.length == 0) {
     return Promise.resolve([])
   }
 
   let newestBuildId = getIdFromBuild(builds[0])
-  console.log('newestBuildId', newestBuildId)
   if (newestBuildIdFromDb === newestBuildId) {
     return Promise.resolve([])
   }

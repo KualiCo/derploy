@@ -11,6 +11,7 @@ export type Commit = {
   commitId: string,
   message: string,
   author: string,
+  hash: string,
   timestamp: Timestamp,
 }
 
@@ -70,7 +71,8 @@ function parseChangeSet(changeSet): Array<Commit> {
       commitId: change.commitId,
       message: change.msg,
       author: change.author.fullName,
-      timestamp: new Date(change.date).getTime()
+      timestamp: new Date(change.date).getTime(),
+      hash: change.id
     }
   })
 }

@@ -11,6 +11,7 @@ the contents of those deploys are.
 []  get initial current time faster so we don't have to update every second
 [x] get current date
 []  get current week
+[]  handle errors somewhere in the ui
 []  on click, expand row to fill the whole panel
 [x] Pull title and description from commit if the deploy commit isn't a pr merge
 [x] sort the deploys by time
