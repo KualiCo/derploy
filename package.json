@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon -w server/ server/index.js",
     "build": "webpack --config webpack.config.js",
+    "drop": "babel-node server/scripts/drop.js",
     "watch": "webpack --watch --config webpack.config.js"
   },
   "author": "Jamison Dance <***REMOVED***@kuali.co> (http://***REMOVED***.dance)",
@@ -30,8 +31,11 @@
     "webpack": "1.12.9"
   },
   "devDependencies": {
+    "babel-cli": "6.3.17",
     "babel-loader": "6.2.0",
+    "chalk": "1.1.1",
     "eslint": "1.10.3",
+    "inquirer": "0.11.0",
     "nodemon": "1.8.1",
     "react": "0.14.3",
     "react-dom": "0.14.3",
