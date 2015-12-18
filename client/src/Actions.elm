@@ -1,10 +1,12 @@
-module Actions where
+module Actions (..) where
 
-import Deploy exposing (Deploy)
+import Deploy.Actions as DeployActions
+import Deploy.Deploy exposing (Deploy)
 import Time exposing (Time)
+
 
 type Action
     = LoadDeploys (List Deploy)
     | ErrorLoading String
-    | DeployAction Int Deploy.Action
+    | DeployAction Int DeployActions.Action
     | UpdateTime Time
