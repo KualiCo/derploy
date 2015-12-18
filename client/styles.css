@@ -123,3 +123,9 @@ body {
 .sprint-header .deploys-today div {
   color: #DEF2CB;
 }
+
+.flex-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

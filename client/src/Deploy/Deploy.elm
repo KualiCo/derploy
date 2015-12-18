@@ -1,10 +1,15 @@
 module Deploy.Deploy (..) where
 
+import Deploy.Commit as Commit
+import Common.Time exposing (getRelativeTime)
+import Common.Layout exposing (row, column)
+import Date exposing (fromTime)
 import Deploy.Commit exposing (Commit, commitDecoder)
 import Deploy.Actions as Actions exposing (Action)
 import Debug exposing (log)
-import Html exposing (Html, div, text, img, span, button)
-import Html.Attributes exposing (src, class)
+import Format exposing (format)
+import Html exposing (Html, div, text, img, span, button, h3, a, h4)
+import Html.Attributes exposing (src, class, href)
 import Html.Events exposing (onClick)
 import Http exposing (Error)
 import Json.Decode exposing (Decoder, succeed, (:=), list, string, object3, object7, object8, int, succeed)
@@ -94,48 +99,6 @@ updateRelativeTime currentTime deploy =
         { deploy | relativeTime = relativeTime }
 
 
-getRelativeTime : Time -> Int -> String
-getRelativeTime now time =
-    let
-        nowAsInt = round now
-
-        difference = nowAsInt - time
-
-        oneMinute = 1000 * 60
-
-        oneHour = oneMinute * 60
-
-        oneDay = oneHour * 24
-    in
-        if difference < 0 then
-            "YOU ARE IN THE FUTURE"
-        else if difference < oneDay && difference > oneHour then
-            let
-                hours = difference // oneHour
-            in
-                (toString hours) ++ (pluralize hours " hour") ++ " ago"
-        else if difference < oneHour && difference > oneMinute then
-            let
-                minutes = difference // oneMinute
-            in
-                (toString minutes) ++ (pluralize minutes " minute") ++ " ago"
-        else if difference < oneMinute then
-            "less than a minute ago"
-        else
-            let
-                days = difference // oneDay
-            in
-                (toString days) ++ (pluralize days " day") ++ " ago"
-
-
-pluralize : Int -> String -> String
-pluralize num str =
-    if num == 1 then
-        str
-    else
-        str ++ "s"
-
-
 update : Action -> Model -> Model
 update action model =
     case action of
@@ -162,8 +125,16 @@ update action model =
             }
 
 
-view : Signal.Address Action -> Deploy -> Html
-view address deploy =
+view : Time -> Signal.Address Action -> Deploy -> Html
+view currentTime address deploy =
+    if deploy.expanded then
+        expandedDeploy currentTime address deploy
+    else
+        collapsedDeploy address deploy
+
+
+collapsedDeploy : Signal.Address Action -> Deploy -> Html
+collapsedDeploy address deploy =
     div
         [ class "centerer" ]
         [ div
@@ -177,13 +148,7 @@ view address deploy =
                     []
                 , div
                     []
-                    [ text
-                        (if deploy.expanded then
-                            "BUTTS"
-                         else
-                            deploy.title
-                        )
-                    ]
+                    [ text deploy.title ]
                 ]
             , div
                 [ class "right-deploy" ]
@@ -194,11 +159,36 @@ view address deploy =
         ]
 
 
-expandedDeploy : Signal.Address Action -> Deploy -> Html
-expandedDeploy address deploy =
+expandedDeploy : Time -> Signal.Address Action -> Deploy -> Html
+expandedDeploy currentTime address deploy =
     div
         []
         [ div
             [ class "expanded-header" ]
-            []
+            [ row
+                [ h3 [] [ text deploy.title ]
+                , text <| format "%A • %B %e • %I:%M %P" <| fromTime <| toFloat deploy.timestamp
+                ]
+            , div [ class "expanded-deploy-body" ]
+                  [ row
+                      [ column
+                          [ h4 [] [ text "Number" ]
+                          , text (toString deploy.id)
+                          ]
+                      , column
+                          [ h4 [] [ text "Duration" ]
+                          , text (toString deploy.duration)
+                          ]
+                      , column
+                          [ h4 [] [ text "Url" ]
+                          , a [ href deploy.url ]
+                              [ text deploy.url ]
+                          ]
+                      ]
+
+                  , row [ h3 [] [ text "Commits" ] ]
+                  , div [ class "expanded-deploy-commits" ]
+                      (List.map (Commit.view currentTime address) deploy.commits)
+                  ]
+            ]
         ]

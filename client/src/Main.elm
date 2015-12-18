@@ -50,9 +50,10 @@ init =
     )
 
 
-sendId : Signal.Address Action -> Deploy.Model -> Html
-sendId address model =
+sendId : Time -> Signal.Address Action -> Deploy.Model -> Html
+sendId currentTime address model =
     Deploy.view
+        currentTime
         (Signal.forwardTo address (Actions.DeployAction model.id))
         model
 
@@ -69,7 +70,7 @@ view address model =
                 [ deployHeader model.deploys model.currentTime
                 , div
                     [ class "deploy-rows" ]
-                    (List.map (sendId address) model.deploys)
+                    (List.map (sendId model.currentTime address) model.deploys)
                 ]
             , div
                 [ class "sprint" ]

@@ -18,3 +18,12 @@ the contents of those deploys are.
 []  add an endpoint to get stats for past weeks
 [x] use an actual db ya mook (but still use a seed file of some kind i guess)
 [x] use real config instead of hard-coded tokens that i have to expire now
+
+
+local todos:
+
+1. why do the commits not show up?
+2. make deploy expand and collapse
+3. format expanded deploy correctly
+4. make commits expand and collapse
+

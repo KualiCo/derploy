@@ -36,10 +36,7 @@ DeploySchema.statics.getLastId = async function(project) {
 
 DeploySchema.statics.updateDeploysIfNotUpToDate = async function(project) {
   let newestBuildId = await this.getLastId(project)
-  console.log('NEWEST BUILD ID IS', newestBuildId)
   let newerBuilds = await getBuildsNewerThan(project, newestBuildId)
-
-  console.log('newer builds is', newerBuilds)
 
   if (newerBuilds.length == 0) {
     return
