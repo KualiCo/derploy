@@ -1,4 +1,4 @@
-module Format (format) where
+module Common.Format (format) where
 
 {-| Format strings for dates.
 @docs format

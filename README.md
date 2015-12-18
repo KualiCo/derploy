@@ -23,7 +23,7 @@ the contents of those deploys are.
 local todos:
 
 [x] why do the commits not show up?
-[ ] make deploy expand and collapse
+[x] make deploy expand and collapse
 [ ] format expanded deploy correctly
 [ ] make commits expand and collapse
 

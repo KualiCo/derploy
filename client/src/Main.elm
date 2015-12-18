@@ -2,11 +2,11 @@ module Main (..) where
 
 import Actions exposing (Action)
 import Ajax exposing (fetchDeploys)
+import Common.Format exposing (format)
 import Date exposing (fromTime)
 import Debug exposing (log)
 import Deploy.Deploy as Deploy exposing (Deploy)
 import Effects exposing (Effects, Never)
-import Format exposing (format)
 import Html exposing (div, button, text, Html, h1, h2)
 import Html.Attributes exposing (class)
 import Maybe exposing (Maybe)

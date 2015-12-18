@@ -1,13 +1,12 @@
 module Deploy.Deploy (..) where
 
-import Deploy.Commit as Commit
+import Common.Format exposing (format)
 import Common.Time exposing (getRelativeTime)
 import Common.Layout exposing (row, column)
 import Date exposing (fromTime)
-import Deploy.Commit exposing (Commit, commitDecoder)
+import Deploy.Commit as Commit exposing (Commit, commitDecoder)
 import Deploy.Actions as Actions exposing (Action)
 import Debug exposing (log)
-import Format exposing (format)
 import Html exposing (Html, div, text, img, span, button, h3, a, h4)
 import Html.Attributes exposing (src, class, href)
 import Html.Events exposing (onClick)
@@ -168,6 +167,7 @@ expandedDeploy currentTime address deploy =
             [ row
                 [ h3 [] [ text deploy.title ]
                 , text <| format "%A • %B %e • %I:%M %P" <| fromTime <| toFloat deploy.timestamp
+                , button [ onClick address Actions.Toggle ] [ text "^" ]
                 ]
             , div [ class "expanded-deploy-body" ]
                   [ row
