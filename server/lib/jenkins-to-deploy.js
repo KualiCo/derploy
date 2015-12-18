@@ -64,7 +64,7 @@ async function getGithubUser(jenkinsUserName: string, fullName: string): Promise
 }
 
 function parseChangeSet(changeSet): Array<Commit> {
-  const changes = get('items', changeSet, [])
+  const changes = get(changeSet, 'items', [])
   return map(changes, (change) => {
     return {
       affectedPaths: change.affectedPaths,
