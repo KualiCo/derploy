@@ -9,7 +9,7 @@ import moment from 'moment'
 window.d3 = d3
 
 function yearWeekToWeekStartDate({year, week}) {
-  return moment(year).week(week).day('Monday').valueOf()
+  return moment().year(year).week(week).day(1).toDate()
 }
 
 const data = [
@@ -31,9 +31,10 @@ function makeChart(_data) {
   const formattedData = _data.map(d => {
     return {
       date: yearWeekToWeekStartDate(d._id),
-      count: d.count
+      Deploys: d.count
     }
   })
+  console.log(formattedData[0].date)
 
   const chart = c3.generate({
     bindto: '.chart',
@@ -41,18 +42,40 @@ function makeChart(_data) {
       json: formattedData,
       keys: {
         x: 'date',
-        value: ['count']
+        value: ['Deploys']
+      },
+      colors: {
+        Deploys: ['#82CF45']
       }
     },
+    point: {
+      r: 7,
+      stroke: '#82CF45',
+      fill: 'none'
+    },
     axis: {
+      y: {
+        label: {
+          text: 'Number of Deploys',
+          position: 'outer-center'
+        }
+      },
       x: {
         type: 'timeseries',
+        label: {
+          text: 'Sprint Week',
+          position: 'outer-center'
+        },
         tick: {
-          format: '%Y-%M-%d'
+          format: function(x) {
+            return moment(x).format('MMM Do YY')
+          }
         }
       }
     }
   })
+
+  chart.legend.hide('Deploys')
 }
 
 export default function fetchDataAndMakeChart() {

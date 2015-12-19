@@ -40,16 +40,25 @@
 
 /*-- Line --*/
 .c3-line {
-  stroke-width: 1px; }
+  stroke-width: 4px; }
 
 /*-- Point --*/
 .c3-circle._expanded_ {
-  stroke-width: 1px;
-  stroke: white; }
+  stroke-width: 4px;
+  stroke:  #82CF45;
+  fill: none;
+}
 
-.c3-selected-circle {
-  fill: white;
-  stroke-width: 2px; }
+.c3-circle {
+  fill: none;
+  stroke:  #82CF45;
+  stroke-width: 4px;
+}
+
+
+/*.c3-selected-circle {*/
+  /*fill: white;*/
+  /*stroke-width: 2px; }*/
 
 /*-- Bar --*/
 .c3-bar {

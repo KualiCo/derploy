@@ -59,6 +59,6 @@ graph todos:
 [x] implement stats endpoint
 [x] grab graph data from server instead of hardcoding
 [ ] hook grabbing graph data up to elm
-[ ] style graph
+[x] style graph
 [ ] make tool-tip styled and labeled correctly
 [x] add tool-tips to graph
