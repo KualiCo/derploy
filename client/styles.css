@@ -22,6 +22,14 @@ body {
   width: 50%;
 }
 
+.deploys {
+  margin-right: 0.25em;
+}
+
+.sprint {
+  margin-left: 0.25em;
+}
+
 @media (max-width: 750px) {
   .row {
     flex-direction: column;
@@ -48,6 +56,7 @@ body {
 
 .deploy-rows {
   background-color: #FCFCFC;
+  height: 235px;
 }
 
 .profile-pic {
@@ -128,4 +137,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.chart {
+  background-color: #FAFAFA;
+  margin: 0 0.5em 0 0.5em;
 }

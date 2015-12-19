@@ -61,7 +61,7 @@ sendId currentTime address model =
 view : Address Action -> Model -> Html
 view address model =
     div
-        [ class "container" ]
+        [ class "deploys-container" ]
         [ h1 [] [ text "CM Stats" ]
         , div
             [ class "row" ]
@@ -75,7 +75,9 @@ view address model =
             , div
                 [ class "sprint" ]
                 [ sprintHeader model.deploys model.currentTime
-                , h1 [] [ text "BUTTS" ]
+                , div
+                    [ class "deploy-rows" ]
+                    [ text "BUTTS" ]
                 ]
             ]
         ]

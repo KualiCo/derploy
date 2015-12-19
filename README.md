@@ -60,5 +60,6 @@ graph todos:
 [x] grab graph data from server instead of hardcoding
 [ ] hook grabbing graph data up to elm
 [x] style graph
+[ ] make graph a child of the div the elm app is in so it is the same width
 [ ] make tool-tip styled and labeled correctly
 [x] add tool-tips to graph
