@@ -1,9 +1,15 @@
 module.exports = {
   entry: './client/app.js',
+
   output: {
     path: './client/build/',
     filename: 'app.js'
   },
+
+  resolve: {
+    extensions: ['', '.js']
+  },
+
   module: {
     loaders: [
       {

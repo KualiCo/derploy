@@ -5,15 +5,8 @@ import Deploy.Deploy exposing (Deploy, deployDecoder)
 import Effects exposing (Effects)
 import Http exposing (Error)
 import Json.Decode exposing (list)
+import Stats.Stats exposing (Stat, statDecoder)
 import Task exposing (Task)
-
-
--- ok now i have a task to fetch the deploys. what do i do with them?
--- how do i send out a request for tasks, and do something with the result?
---fetchDeploys : String -> Task Error (List Deploy)
---fetchDeploys url =
---Http.get (list deployDecoder) url
-
 
 fetchDeploys : (List Deploy -> Action) -> (String -> Action) -> String -> Effects Action
 fetchDeploys successAction errorAction url =
@@ -29,3 +22,15 @@ fetchDeploys successAction errorAction url =
                         errorAction (toString e)
             )
         |> Effects.task
+
+
+fetchStats : String -> Task Error (List Stat)
+fetchStats url =
+  Http.get (list statDecoder) url
+
+
+-- ok, i have a function that creates a task.
+-- how do i handle that task by sending it to a port? I guess i need a signal
+-- for the port?
+
+-- i think i need a mailbox?

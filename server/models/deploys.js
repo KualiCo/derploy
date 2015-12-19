@@ -85,7 +85,7 @@ DeploySchema.statics.getStats = function(startDate, endDate) {
       ]
     }
   }
-  return []
+  return this.aggregate([match, group]).exec()
   //Use the aggregation framework with the $week operator?
   //grab all the deploys, add the year and week to them
   //group by year and week
