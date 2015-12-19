@@ -11,6 +11,7 @@ const Schema = mongoose.Schema
 
 const DeploySchema = new Schema({
   project: String,
+  _timestamp: Date,
   timestamp: Number,
   _id: Number
 }, {strict: false})
@@ -51,11 +52,43 @@ DeploySchema.statics.updateDeploysIfNotUpToDate = async function(project) {
   return await this.create(builds)
 }
 
-//DeploySchema.statics.getStats = function(startDate) {
-  //return []
-  // Use the aggregation framework with the $week operator?
-  // grab all the deploys, add the year and week to them
-  // group by year and week
-//}
+DeploySchema.statics.getStats = function(startDate, endDate) {
+  const group = {
+    "$group" : {
+      "_id" : {
+        "week" : {
+          "$week" : "$_timestamp"
+        },
+        "year" : {
+          "$year" : "$_timestamp"
+        }
+      },
+      "count" : {
+        "$sum" : 1
+      }
+    }
+  }
+
+  const match = {
+    "$match" : {
+      "$and" : [
+        {
+          "timestamp" : {
+            "$gte" : startDate
+          }
+        },
+        {
+          "timestamp" : {
+            "$lte" : endDate
+          }
+        }
+      ]
+    }
+  }
+  return []
+  //Use the aggregation framework with the $week operator?
+  //grab all the deploys, add the year and week to them
+  //group by year and week
+}
 
 export default mongoose.model('Deploy', DeploySchema)

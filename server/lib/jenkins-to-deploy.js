@@ -30,6 +30,7 @@ export type Deploy = {
   duration: number,
   result: string,
   timestamp: Timestamp,
+  _timestamp: Timestamp,
   url: string,
   commits: Array<Commit>,
   project: string
@@ -96,6 +97,7 @@ export default async function buildToDeploy(build: Object): Promise<Deploy> {
     duration: build.duration,
     result: build.result,
     timestamp: build.timestamp,
+    _timestamp: build.timestamp,
     url: build.url,
     commits: parseChangeSet(build.changeSet),
     project: getProject(build)
