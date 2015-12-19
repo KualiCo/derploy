@@ -1,8 +1,35 @@
 # THE MAGICAL DEPLOY DASHBOARD WOOOOOOOOOO
 
-This is a humble yet beautiful dashboard to show how often we deploy, and what
-the contents of those deploys are.
+This is a humble dashboard to show how often we deploy, and what the contents
+of those deploys are.
 
+## Installation And Running
+
+You need Elm 0.16 and MongoDB installed. Once those are installed, run this:
+
+```bash
+npm i
+npm run build
+npm start
+```
+
+This will build the front-end code (both Elm and JS), and start the server on
+port 2999 by default. Visit [http://localhost:2999](http://localhost:2999) to
+see the deploys.
+
+
+The first time this runs, it will need to grab a bunch of builds from Jenkins.
+This can take a minute or two.
+
+Also, Jenkins only exposes the last 50 builds through the api, so by default it
+won't start with that much data.
+
+
+## Configuration
+
+Config happens in `server/config.js`. The config pulls from environment
+variables. You'll need to supply a github oauth token, a jenkins username, and
+a jenkins password.
 
 ## TODO
 
@@ -27,3 +54,11 @@ local todos:
 [ ] format expanded deploy correctly
 [ ] make commits expand and collapse
 
+
+graph todos:
+[x] implement stats endpoint
+[ ] grab graph data from server instead of hardcoding
+[ ] hook grabbing graph data up to elm
+[ ] style graph
+[ ] make tool-tip styled and labeled correctly
+[ ] add tool-tips to graph
