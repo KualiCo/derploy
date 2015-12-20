@@ -17,9 +17,11 @@ import Task exposing (Task)
 import Time exposing (Time)
 
 
+-- update the current time every minute, so we recalculate the relative dates
+-- and such
 everyMinute : Signal Action
 everyMinute =
-    Signal.map (\t -> Actions.UpdateTime t) (Time.every Time.second)
+    Signal.map (\t -> Actions.UpdateTime t) (Time.every Time.minute)
 
 
 app : StartApp.App Model
@@ -47,7 +49,7 @@ type alias Model =
 
 init : ( Model, Effects Action )
 init =
-    ( Model [] [] 0.0 Nothing
+    ( Model [] [] getStartTime Nothing
     , fetchStatsAndDeploys Actions.FirstLoadOfData Actions.HandleError
     )
 
@@ -176,3 +178,9 @@ update action model =
 port loadChartData : Signal (List Stat)
 port loadChartData =
     chartMailbox.signal
+
+-- This comes from the call to `Elm.embed`. Apparently arguments provided at
+-- init time come through on special ports that aren't signals or tasks or
+-- anyhting. They just send data through to you. My knowledge of ports is still
+-- pretty lacking, b/c this doesn't make tons of sense to me.
+port getStartTime: Time
