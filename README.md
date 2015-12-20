@@ -37,12 +37,14 @@ a jenkins password.
 [x] remove extra quotes on relative time formatting
 [ ] get initial current time faster so we don't have to update every second
 [x] get current date
+[ ] get only deploys for a single day
+[ ] get all deploys for the current week
 [ ] get current week
 [ ] handle errors somewhere in the ui
-[ ] on click, expand row to fill the whole panel
+[x] on click, expand row to fill the whole panel
 [x] Pull title and description from commit if the deploy commit isn't a pr merge
 [x] sort the deploys by time
-[ ] add an endpoint to get stats for past weeks
+[x] add an endpoint to get stats for past weeks
 [x] use an actual db ya mook (but still use a seed file of some kind i guess)
 [x] use real config instead of hard-coded tokens that i have to expire now
 
@@ -51,7 +53,7 @@ local todos:
 
 [x] why do the commits not show up?
 [x] make deploy expand and collapse
-[ ] format expanded deploy correctly
+[x] format expanded deploy correctly
 [ ] make commits expand and collapse
 
 
@@ -63,3 +65,10 @@ graph todos:
 [ ] make graph a child of the div the elm app is in so it is the same width
 [ ] make tool-tip styled and labeled correctly
 [x] add tool-tips to graph
+
+
+Longer term improvements:
+
+* Animations to things expanding and collapsing
+* Pull more than the past 50 builds from jenkins
+* clean up the horrible mess that is the css

@@ -55,7 +55,7 @@ body {
 }
 
 .deploy-rows {
-  background-color: #FCFCFC;
+  background-color: #F7F7F7;
   height: 235px;
 }
 
@@ -66,14 +66,9 @@ body {
   width: 20px;
 }
 
-.centerer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
 .deploy-container {
   align-items: center;
+  background-color: #FCFCFC;
   border-bottom: 1px solid #EAEAEA;
   border-top: 1px solid #EAEAEA;
   display: flex;
@@ -82,6 +77,14 @@ body {
   height: 47px;
   justify-content: space-between;
   padding: 0.5em 0.7em 0.5em 0.7em;
+}
+
+.deploy-container.expanded {
+  height: auto;
+}
+
+.expanded-header {
+  flex: 1;
 }
 
 .deploy-container:hover {

@@ -135,25 +135,22 @@ view currentTime address deploy =
 collapsedDeploy : Signal.Address Action -> Deploy -> Html
 collapsedDeploy address deploy =
     div
-        [ class "centerer" ]
+        [ class "deploy-container" ]
         [ div
-            [ class "deploy-container" ]
-            [ div
-                [ class "left-deploy" ]
-                [ img
-                    [ src deploy.user.avatarUrl
-                    , class "profile-pic"
-                    ]
-                    []
-                , div
-                    []
-                    [ text deploy.title ]
+            [ class "left-deploy" ]
+            [ img
+                [ src deploy.user.avatarUrl
+                , class "profile-pic"
                 ]
+                []
             , div
-                [ class "right-deploy" ]
-                [ text deploy.relativeTime
-                , button [ onClick address Actions.Toggle ] [ text ">" ]
-                ]
+                []
+                [ text deploy.title ]
+            ]
+        , div
+            [ class "right-deploy" ]
+            [ text deploy.relativeTime
+            , button [ onClick address Actions.Toggle ] [ text ">" ]
             ]
         ]
 
@@ -161,7 +158,7 @@ collapsedDeploy address deploy =
 expandedDeploy : Time -> Signal.Address Action -> Deploy -> Html
 expandedDeploy currentTime address deploy =
     div
-        []
+        [ class "deploy-container expanded" ]
         [ div
             [ class "expanded-header" ]
             [ row
@@ -169,26 +166,28 @@ expandedDeploy currentTime address deploy =
                 , text <| format "%A • %B %e • %I:%M %P" <| fromTime <| toFloat deploy.timestamp
                 , button [ onClick address Actions.Toggle ] [ text "^" ]
                 ]
-            , div [ class "expanded-deploy-body" ]
-                  [ row
-                      [ column
-                          [ h4 [] [ text "Number" ]
-                          , text (toString deploy.id)
-                          ]
-                      , column
-                          [ h4 [] [ text "Duration" ]
-                          , text (toString deploy.duration)
-                          ]
-                      , column
-                          [ h4 [] [ text "Url" ]
-                          , a [ href deploy.url ]
-                              [ text deploy.url ]
-                          ]
-                      ]
-
-                  , row [ h3 [] [ text "Commits" ] ]
-                  , div [ class "expanded-deploy-commits" ]
-                      (List.map (Commit.view currentTime address) deploy.commits)
-                  ]
+            , div
+                [ class "expanded-deploy-body" ]
+                [ row
+                    [ column
+                        [ h4 [] [ text "Number" ]
+                        , text (toString deploy.id)
+                        ]
+                    , column
+                        [ h4 [] [ text "Duration" ]
+                        , text (toString deploy.duration)
+                        ]
+                    , column
+                        [ h4 [] [ text "Url" ]
+                        , a
+                            [ href deploy.url ]
+                            [ text deploy.url ]
+                        ]
+                    ]
+                , row [ h3 [] [ text "Commits" ] ]
+                , div
+                    [ class "expanded-deploy-commits" ]
+                    (List.map (Commit.view currentTime address) deploy.commits)
+                ]
             ]
         ]
