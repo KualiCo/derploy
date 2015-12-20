@@ -1,7 +1,7 @@
 module Main (..) where
 
 import Actions exposing (Action)
-import Ajax exposing (fetchDeploys)
+import Ajax exposing (fetchDeploys, chartMailbox, sendStatsToJS)
 import Common.Format exposing (format)
 import Date exposing (fromTime)
 import Debug exposing (log)
@@ -11,7 +11,8 @@ import Html exposing (div, button, text, Html, h1, h2)
 import Html.Attributes exposing (class)
 import Maybe exposing (Maybe)
 import StartApp
-import Signal exposing (Address)
+import Signal exposing (Address, Mailbox, mailbox)
+import Stats.Stats exposing (Stat)
 import Task exposing (Task)
 import Time exposing (Time)
 
@@ -38,6 +39,7 @@ main =
 
 type alias Model =
     { deploys : List Deploy.Model
+    , stats : List Stat
     , currentTime : Time
     , err : Maybe String
     }
@@ -45,8 +47,8 @@ type alias Model =
 
 init : ( Model, Effects Action )
 init =
-    ( Model [] 0.0 Nothing
-    , fetchDeploys Actions.LoadDeploys Actions.ErrorLoading "http://localhost:2999/deploys"
+    ( Model [] [] 0.0 Nothing
+    , fetchDeploys Actions.LoadDeploys Actions.ErrorLoading
     )
 
 
@@ -131,7 +133,15 @@ update : Action -> Model -> ( Model, Effects Action )
 update action model =
     case action of
         Actions.LoadDeploys loadedDeploys ->
-            ( { model | deploys = loadedDeploys, err = Nothing }, Effects.none )
+            ( { model | deploys = loadedDeploys }, Effects.none )
+
+        Actions.FirstLoadOfData loadedDeploys loadedStats ->
+            ( { model
+                | deploys = loadedDeploys
+                , stats = loadedStats
+              }
+            , (sendStatsToJS loadedStats Actions.NoOp)
+            )
 
         Actions.ErrorLoading errorString ->
             ( log ("AN ERROR" ++ errorString) { model | err = Just errorString }, Effects.none )
@@ -158,3 +168,11 @@ update action model =
               }
             , Effects.none
             )
+
+        Actions.NoOp ->
+            ( model, Effects.none )
+
+
+port loadChartData : Signal (List Stat)
+port loadChartData =
+    chartMailbox.signal

@@ -7,13 +7,15 @@ import Deploys from '../models/deploys'
 
 // TODO: do i return promises, or just return results?
 function getDeploys(req) {
-  let date = req.params.date || Date.now()
+  console.log('req.params is', req.query)
+  let date = req.query.date || Date.now()
+  console.log('date is', moment(date).toString())
   return Deploys.getForWeek(date)
 }
 
 function getStats(req) {
-  let start = req.params.start || moment().subtract(1, 'year').valueOf()
-  let end = req.params.end || moment().valueOf()
+  let start = req.query.start || moment().subtract(1, 'year').valueOf()
+  let end = req.query.end || moment().valueOf()
   return Deploys.getStats(start, end)
 }
 
