@@ -49,7 +49,7 @@ a jenkins password.
 [x] use real config instead of hard-coded tokens that i have to expire now
 
 
-local todos:
+### local todos
 
 [x] why do the commits not show up?
 [x] make deploy expand and collapse
@@ -57,14 +57,18 @@ local todos:
 [ ] make commits expand and collapse
 
 
-graph todos:
+### graph todos
 [x] implement stats endpoint
 [x] grab graph data from server instead of hardcoding
-[ ] hook grabbing graph data up to elm
+[x] hook grabbing graph data up to elm
 [x] style graph
-[ ] make graph a child of the div the elm app is in so it is the same width
+[x] make graph a child of the div the elm app is in so it is the same width
 [ ] make tool-tip styled and labeled correctly
 [x] add tool-tips to graph
+
+### Using real data todos:
+
+[ ]
 
 
 Longer term improvements:

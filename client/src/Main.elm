@@ -1,7 +1,7 @@
 module Main (..) where
 
 import Actions exposing (Action)
-import Ajax exposing (fetchDeploys, chartMailbox, sendStatsToJS)
+import Ajax exposing (fetchStatsAndDeploys, chartMailbox, sendStatsToJS)
 import Common.Format exposing (format)
 import Date exposing (fromTime)
 import Debug exposing (log)
@@ -48,7 +48,7 @@ type alias Model =
 init : ( Model, Effects Action )
 init =
     ( Model [] [] 0.0 Nothing
-    , fetchDeploys Actions.LoadDeploys Actions.ErrorLoading
+    , fetchStatsAndDeploys Actions.FirstLoadOfData Actions.HandleError
     )
 
 
@@ -143,7 +143,7 @@ update action model =
             , (sendStatsToJS loadedStats Actions.NoOp)
             )
 
-        Actions.ErrorLoading errorString ->
+        Actions.HandleError errorString ->
             ( log ("AN ERROR" ++ errorString) { model | err = Just errorString }, Effects.none )
 
         Actions.DeployAction id deployAction ->

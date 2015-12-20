@@ -1,8 +1,7 @@
-const Elm = require('./src/Main.elm')
-const container = document.querySelector('.app')
-
-
+import Elm from './src/Main.elm'
 import chart from './chart/chart'
 
+const container = document.querySelector('.app')
 const elmApp = Elm.embed(Elm.Main, container, {})
-chart()
+
+elmApp.ports.loadChartData.subscribe(chart)

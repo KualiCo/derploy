@@ -9,7 +9,7 @@ import Time exposing (Time)
 type Action
     = LoadDeploys (List Deploy)
     | FirstLoadOfData (List Deploy) (List Stat)
-    | ErrorLoading String
+    | HandleError String
     | DeployAction Int DeployActions.Action
     | UpdateTime Time
     | NoOp

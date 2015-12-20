@@ -7,7 +7,7 @@ import Http exposing (Error)
 import Json.Decode exposing (list)
 import Signal exposing (Mailbox, Address, mailbox)
 import Stats.Stats exposing (Stat, statDecoder)
-import Task exposing (Task)
+import Task exposing (Task, andThen)
 
 
 fetchDeploys : (List Deploy -> Action) -> (String -> Action) -> Effects Action
@@ -26,9 +26,37 @@ fetchDeploys successAction errorAction =
         |> Effects.task
 
 
-fetchStats : String -> Task Error (List Stat)
-fetchStats url =
-    Http.get (list statDecoder) url
+fetchStatsAndDeploys : (List Deploy -> List Stat -> Action) -> (String -> Action) -> Effects Action
+fetchStatsAndDeploys successAction errAction =
+    Task.map2
+        (\deploys stats ->
+            { deploys = deploys
+            , stats = stats
+            }
+        )
+        fetchDeploys'
+        fetchStats
+        |> Task.toResult
+        |> Task.map
+            (\res ->
+                case res of
+                    Ok deploysAndStats ->
+                        successAction deploysAndStats.deploys deploysAndStats.stats
+
+                    Err e ->
+                        errAction (toString e)
+            )
+        |> Effects.task
+
+
+fetchDeploys' : Task Error (List Deploy)
+fetchDeploys' =
+    Http.get (list deployDecoder) "/deploys?date=2015-11-30"
+
+
+fetchStats : Task Error (List Stat)
+fetchStats =
+    Http.get (list statDecoder) "/stats"
 
 
 sendStatsToJS : List Stat -> Action -> Effects Action

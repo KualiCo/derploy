@@ -1,6 +1,5 @@
 // @flow
 
-import axios from 'axios'
 import c3 from 'c3'
 // $FlowIssue d3 exists ya scallywag
 import d3 from 'd3'
@@ -8,29 +7,23 @@ import moment from 'moment'
 
 window.d3 = d3
 
-function yearWeekToWeekStartDate({year, week}) {
+function yearWeekToWeekStartDate(year, week) {
   return moment().year(year).week(week).day(1).toDate()
 }
 
-const data = [
-  //{ "_id" : { "week" : 47, "year" : 2015 }, "count" : 1 },
-  //{ "_id" : { "week" : 48, "year" : 2015 }, "count" : 26 },
-  //{ "_id" : { "week" : 49, "year" : 2015 }, "count" : 22 },
-  //{ "_id" : { "week" : 50, "year" : 2015 }, "count" : 1 }
-]
 
-function getStats() {
-  return axios.get('/stats').then(r => r.data)
+type Stat = {
+  week: number,
+  year: number,
+  count: number
 }
 
-function makeChart(_data) {
-  if (!_data) {
-    _data = data
-  }
+export default function makeChart(_data: Array<Stat>) {
+  console.log('CALLING MAKE CHART AND I GOT', _data)
 
   const formattedData = _data.map(d => {
     return {
-      date: yearWeekToWeekStartDate(d._id),
+      date: yearWeekToWeekStartDate(d.year, d.week),
       Deploys: d.count
     }
   })
@@ -76,11 +69,4 @@ function makeChart(_data) {
   })
 
   chart.legend.hide('Deploys')
-}
-
-export default function fetchDataAndMakeChart() {
-  getStats()
-    .then(
-      makeChart,
-      console.error)
 }
