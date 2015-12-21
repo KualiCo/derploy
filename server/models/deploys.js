@@ -11,6 +11,7 @@ const Schema = mongoose.Schema
 
 const DeploySchema = new Schema({
   project: String,
+  result: String,
   _timestamp: Date,
   timestamp: Number,
   _id: Number
@@ -24,6 +25,7 @@ DeploySchema.statics.getForWeek = async function(date, project='STU-CM-Build-Mas
   return this.find({
     $and: [
       {project},
+      {result: 'SUCCESS'},
       {timestamp: {$gte: startOfWeek}},
       {timestamp: {$lte: endOfWeek}}
     ]
@@ -54,16 +56,17 @@ DeploySchema.statics.updateDeploysIfNotUpToDate = async function(project) {
 
 DeploySchema.statics.getStats = function(startDate, endDate, project='STU-CM-Build-Master') {
   const match = {
-    "$match" : {
-      "$and" : [
+    $match : {
+      $and : [
         {
-          "timestamp" : {
-            "$gte" : startDate
+          timestamp : {
+            $gte : startDate
           }
         },
+        {result: 'SUCCESS'},
         {
-          "timestamp" : {
-            "$lte" : endDate
+          timestamp : {
+            $lte : endDate
           }
         },
         {
@@ -74,17 +77,17 @@ DeploySchema.statics.getStats = function(startDate, endDate, project='STU-CM-Bui
   }
 
   const group = {
-    "$group" : {
-      "_id" : {
-        "week" : {
-          "$week" : "$_timestamp"
+    $group : {
+      _id : {
+        week : {
+          $week : "$_timestamp"
         },
-        "year" : {
-          "$year" : "$_timestamp"
+        year : {
+          $year : "$_timestamp"
         }
       },
-      "count" : {
-        "$sum" : 1
+      count : {
+        $sum : 1
       }
     }
   }

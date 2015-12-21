@@ -48,7 +48,7 @@ a jenkins password.
 [x] use an actual db ya mook (but still use a seed file of some kind i guess)
 [x] use real config instead of hard-coded tokens that i have to expire now
 [ ] rotate keys
-[ ] only show successful deploys
+[x] only show successful deploys
 
 
 ### deploys/commits:
