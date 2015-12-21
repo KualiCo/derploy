@@ -37,17 +37,18 @@ a jenkins password.
 [x] remove extra quotes on relative time formatting
 [x] get initial current time faster so we don't have to update every second
 [x] get current date
-[ ] get only deploys for a single day
-[ ] get all deploys for the current week
-[ ] get current week
-[ ] handle errors somewhere in the ui
+[x] get only deploys for a single day
+[x] get all deploys for the current week
+[x] get current week
+[ ] split up deploys by week to display a single sprint
+[x] handle errors somewhere in the ui
 [x] on click, expand row to fill the whole panel
 [x] Pull title and description from commit if the deploy commit isn't a pr merge
 [x] sort the deploys by time
 [x] add an endpoint to get stats for past weeks
 [x] use an actual db ya mook (but still use a seed file of some kind i guess)
 [x] use real config instead of hard-coded tokens that i have to expire now
-[ ] rotate keys
+[x] rotate keys
 [x] only show successful deploys
 
 
@@ -67,14 +68,6 @@ a jenkins password.
 [x] make graph a child of the div the elm app is in so it is the same width
 [ ] make tool-tip styled and labeled correctly
 [x] add tool-tips to graph
-
-How am I going to do this?
-
-* get deploys from the server
-* when the deploys come in, tag them with the date
-* to get the left panel, filter the deploys by today's date
-* to get the right panel, get all deploys from the beginning of the week,
-  and then turn them in to 5 lists, one for each day?
 
 Longer term improvements:
 
