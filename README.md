@@ -47,6 +47,8 @@ a jenkins password.
 [x] add an endpoint to get stats for past weeks
 [x] use an actual db ya mook (but still use a seed file of some kind i guess)
 [x] use real config instead of hard-coded tokens that i have to expire now
+[ ] rotate keys
+[ ] only show successful deploys
 
 
 ### deploys/commits:
@@ -66,10 +68,13 @@ a jenkins password.
 [ ] make tool-tip styled and labeled correctly
 [x] add tool-tips to graph
 
-### Using real data:
+How am I going to do this?
 
-[ ]
-
+* get deploys from the server
+* when the deploys come in, tag them with the date
+* to get the left panel, filter the deploys by today's date
+* to get the right panel, get all deploys from the beginning of the week,
+  and then turn them in to 5 lists, one for each day?
 
 Longer term improvements:
 

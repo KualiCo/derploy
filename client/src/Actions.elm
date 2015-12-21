@@ -10,6 +10,6 @@ type Action
     = LoadDeploys (List Deploy)
     | FirstLoadOfData (List Deploy) (List Stat)
     | HandleError String
-    | DeployAction Int DeployActions.Action
+    | DeploysAction DeployActions.DeploysAction
     | UpdateTime Time
     | NoOp

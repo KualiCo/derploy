@@ -6,6 +6,7 @@ import Common.Format exposing (format)
 import Date exposing (fromTime)
 import Debug exposing (log)
 import Deploy.Deploy as Deploy exposing (Deploy)
+import Deploy.Deploys as Deploys
 import Effects exposing (Effects, Never)
 import Html exposing (div, button, text, Html, h1, h2)
 import Html.Attributes exposing (class)
@@ -54,14 +55,6 @@ init =
     )
 
 
-sendId : Time -> Signal.Address Action -> Deploy.Model -> Html
-sendId currentTime address model =
-    Deploy.view
-        currentTime
-        (Signal.forwardTo address (Actions.DeployAction model.id))
-        model
-
-
 view : Address Action -> Model -> Html
 view address model =
     div
@@ -69,13 +62,10 @@ view address model =
         [ h1 [] [ text "CM Stats" ]
         , div
             [ class "row" ]
-            [ div
-                [ class "deploys" ]
-                [ deployHeader model.deploys model.currentTime
-                , div
-                    [ class "deploy-rows" ]
-                    (List.map (sendId model.currentTime address) model.deploys)
-                ]
+            [ Deploys.view
+                model.currentTime
+                (Signal.forwardTo address (Actions.DeploysAction))
+                model.deploys
             , div
                 [ class "sprint" ]
                 [ sprintHeader model.deploys model.currentTime
@@ -87,14 +77,17 @@ view address model =
         ]
 
 
-deployHeader : List Deploy.Model -> Time -> Html
-deployHeader deploys currentTime =
+deploysToday : Time -> Html
+deploysToday currentTime =
     div
-        [ class "deploys-header" ]
-        [ deployCount (List.length deploys)
-        , deploysToday currentTime
+        [ class "deploys-today" ]
+        [ h2 [] [ text "Deploys Today" ]
+          -- TODO: How to format this correctly?
+        , div
+            []
+            [ text <| format "%A, %B %e, %Y" <| fromTime currentTime
+            ]
         ]
-
 
 sprintHeader : List Deploy -> Time -> Html
 sprintHeader deploys currentTime =
@@ -111,25 +104,6 @@ sprintCount deploys =
     div
         [ class "deploy-count sprint-count" ]
         [ text <| toString <| List.length deploys ]
-
-
-deployCount : Int -> Html
-deployCount count =
-    div [ class "deploy-count" ] [ text (toString count) ]
-
-
-deploysToday : Time -> Html
-deploysToday currentTime =
-    div
-        [ class "deploys-today" ]
-        [ h2 [] [ text "Deploys Today" ]
-          -- TODO: How to format this correctly?
-        , div
-            []
-            [ text <| format "%A, %B %e, %Y" <| fromTime currentTime
-            ]
-        ]
-
 
 update : Action -> Model -> ( Model, Effects Action )
 update action model =
@@ -148,18 +122,8 @@ update action model =
         Actions.HandleError errorString ->
             ( log ("AN ERROR" ++ errorString) { model | err = Just errorString }, Effects.none )
 
-        Actions.DeployAction id deployAction ->
-            ( { model
-                | deploys =
-                    List.map
-                        (\d ->
-                            if d.id == id then
-                                Deploy.update deployAction d
-                            else
-                                d
-                        )
-                        model.deploys
-              }
+        Actions.DeploysAction deploysAction ->
+            ( { model | deploys = Deploys.update deploysAction model.deploys }
             , Effects.none
             )
 
