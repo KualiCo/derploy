@@ -75,7 +75,7 @@ var MomentApi = function(Moment){
     var setWeekDay = function() {
         return function(m, day) {
             var parsedMoment = Moment(m);
-            return parsedMoment.week(day).toObject();
+            return parsedMoment.day(day).toObject();
         };
     }
 

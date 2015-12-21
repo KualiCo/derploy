@@ -11,8 +11,9 @@ import Effects exposing (Effects, Never)
 import Html exposing (div, button, text, Html, h1, h2)
 import Html.Attributes exposing (class)
 import Maybe exposing (Maybe)
-import StartApp
 import Signal exposing (Address, Mailbox, mailbox)
+import Sprint.Sprint as Sprint
+import StartApp
 import Stats.Stats exposing (Stat)
 import Task exposing (Task)
 import Time exposing (Time)
@@ -66,13 +67,10 @@ view address model =
                 model.currentTime
                 (Signal.forwardTo address (Actions.DeploysAction))
                 model.deploys
-            , div
-                [ class "sprint" ]
-                [ sprintHeader model.deploys model.currentTime
-                , div
-                    [ class "deploy-rows" ]
-                    [ text "BUTTS" ]
-                ]
+            , Sprint.view
+                model.currentTime
+                (Signal.forwardTo address (Actions.DeploysAction))
+                model.deploys
             ]
         ]
 
