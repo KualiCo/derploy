@@ -1,3 +1,5 @@
+import moment from 'moment'
+window.moment = moment
 import Elm from './src/Main.elm'
 import chart from './chart/chart'
 
