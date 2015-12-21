@@ -22,7 +22,7 @@ view currentTime address deploys =
             [ sprintHeader sprintDeploys currentTime
             , div
                 [ class "deploy-rows" ]
-                [ text "BUTTS" ]
+                [ text "COMING SOON WOO" ]
             ]
 
 

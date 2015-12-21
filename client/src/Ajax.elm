@@ -12,7 +12,7 @@ import Task exposing (Task, andThen)
 
 fetchDeploys : (List Deploy -> Action) -> (String -> Action) -> Effects Action
 fetchDeploys successAction errorAction =
-    Http.get (list deployDecoder) "http://localhost:2999/deploys?date=2015-11-30"
+    fetchDeploys'
         |> Task.toResult
         |> Task.map
             (\res ->

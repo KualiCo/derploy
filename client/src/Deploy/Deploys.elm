@@ -1,6 +1,7 @@
 module Deploy.Deploys (..) where
 
 import Common.Format exposing (format)
+import Common.Time exposing (pluralize)
 import Date exposing (fromTime)
 import Deploy.Actions as Actions exposing (Action, DeploysAction)
 import Deploy.Deploy as Deploy exposing (Deploy)
@@ -13,47 +14,55 @@ import Time exposing (Time)
 
 view : Time -> Address DeploysAction -> List Deploy -> Html
 view currentTime address deploys =
-  let
-      currentDeploys = deploysForTime currentTime deploys
-  in
-    div
-        [ class "deploys" ]
-        [ deployHeader currentDeploys currentTime
-        , div
-            [ class "deploy-rows" ]
-            (List.map (renderSingleDeploy currentTime address) currentDeploys)
-        ]
+    let
+        currentDeploys = deploysForTime currentTime deploys
+    in
+        div
+            [ class "deploys" ]
+            [ deployHeader currentDeploys currentTime
+            , div
+                [ class "deploy-rows" ]
+                (List.map (renderSingleDeploy currentTime address) currentDeploys)
+            ]
+
 
 isOnSameDay : Time -> Deploy -> Bool
 isOnSameDay targetTime deploy =
-  let
-      now = Moment.fromTime targetTime
-      beginningOfDay = Moment.toTime { now | hours = 0, minutes = 0, seconds = 0, milliseconds = 0 }
-      endOfDay = Moment.toTime { now | hours = 23, minutes = 59, seconds = 59, milliseconds = 999 }
-      ts = toFloat deploy.timestamp
-  in
-    ts > beginningOfDay && ts < endOfDay
+    let
+        now = Moment.fromTime targetTime
+
+        beginningOfDay = Moment.toTime { now | hours = 0, minutes = 0, seconds = 0, milliseconds = 0 }
+
+        endOfDay = Moment.toTime { now | hours = 23, minutes = 59, seconds = 59, milliseconds = 999 }
+
+        ts = toFloat deploy.timestamp
+    in
+        ts > beginningOfDay && ts < endOfDay
+
 
 deploysForTime : Time -> List Deploy -> List Deploy
 deploysForTime time deploys =
-  List.filter (isOnSameDay time) deploys
+    List.filter (isOnSameDay time) deploys
 
 
 renderSingleDeploy : Time -> Address DeploysAction -> Deploy.Model -> Html
 renderSingleDeploy currentTime address model =
-  Deploy.view
-      currentTime
-      (Signal.forwardTo address (Actions.DeploysAction model.id))
-      model
+    Deploy.view
+        currentTime
+        (Signal.forwardTo address (Actions.DeploysAction model.id))
+        model
 
 
 deployHeader : List Deploy.Model -> Time -> Html
 deployHeader deploys currentTime =
-    div
-        [ class "deploys-header" ]
-        [ deployCount (List.length deploys)
-        , deploysToday currentTime
-        ]
+    let
+        count = List.length deploys
+    in
+        div
+            [ class "deploys-header" ]
+            [ deployCount count
+            , deploysToday currentTime count
+            ]
 
 
 deployCount : Int -> Html
@@ -61,12 +70,11 @@ deployCount count =
     div [ class "deploy-count" ] [ text (toString count) ]
 
 
-deploysToday : Time -> Html
-deploysToday currentTime =
+deploysToday : Time -> Int -> Html
+deploysToday currentTime numDeploys =
     div
         [ class "deploys-today" ]
-        [ h2 [] [ text "Deploys Today" ]
-          -- TODO: How to format this correctly?
+        [ h2 [] [ text <| (pluralize numDeploys "Deploy") ++ " Today" ]
         , div
             []
             [ text <| format "%A, %B %e, %Y" <| fromTime currentTime

@@ -12,6 +12,9 @@ const Schema = mongoose.Schema
 const DeploySchema = new Schema({
   project: String,
   result: String,
+  // We need one timestamp with a Date so we can use $week from the aggregation
+  // pipeline on it, but Dates are a pain to handle in elm so we have another
+  // with just the time in milliseconds
   _timestamp: Date,
   timestamp: Number,
   _id: Number
