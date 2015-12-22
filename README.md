@@ -33,41 +33,43 @@ username, and a jenkins password.
 
 ## TODO
 
-[x] format relative dates on deploys
-[x] remove extra quotes on relative time formatting
-[x] get initial current time faster so we don't have to update every second
-[x] get current date
-[x] get only deploys for a single day
-[x] get all deploys for the current week
-[x] get current week
-[ ] split up deploys by week to display a single sprint
-[x] handle errors somewhere in the ui
-[x] on click, expand row to fill the whole panel
-[x] Pull title and description from commit if the deploy commit isn't a pr merge
-[x] sort the deploys by time
-[x] add an endpoint to get stats for past weeks
-[x] use an actual db ya mook (but still use a seed file of some kind i guess)
-[x] use real config instead of hard-coded tokens that i have to expire now
-[x] rotate keys
-[x] only show successful deploys
+- [x] format relative dates on deploys
+- [x] remove extra quotes on relative time formatting
+- [x] get initial current time faster so we don't have to update every second
+- [x] get current date
+- [x] get only deploys for a single day
+- [x] get all deploys for the current week
+- [x] get current week
+- [ ] split up deploys by week to display a single sprint
+- [x] handle errors somewhere in the ui
+- [x] on click, expand row to fill the whole panel
+- [x] Pull title and description from commit if the deploy commit isn't a pr merge
+- [x] sort the deploys by time
+- [x] add an endpoint to get stats for past weeks
+- [x] use an actual db ya mook (but still use a seed file of some kind i guess)
+- [x] use real config instead of hard-coded tokens that i have to expire now
+- [x] rotate keys
+- [x] only show successful deploys
+- [x] make jenkins url configurable
 
 
 ### deploys/commits:
 
-[x] why do the commits not show up?
-[x] make deploy expand and collapse
-[x] format expanded deploy correctly
-[ ] make commits expand and collapse
+- [x] why do the commits not show up?
+- [x] make deploy expand and collapse
+- [x] format expanded deploy correctly
+- [ ] make commits expand and collapse
+- [ ] add commit user
 
 
 ### graph:
-[x] implement stats endpoint
-[x] grab graph data from server instead of hardcoding
-[x] hook grabbing graph data up to elm
-[x] style graph
-[x] make graph a child of the div the elm app is in so it is the same width
-[ ] make tool-tip styled and labeled correctly
-[x] add tool-tips to graph
+- [x] implement stats endpoint
+- [x] grab graph data from server instead of hardcoding
+- [x] hook grabbing graph data up to elm
+- [x] style graph
+- [x] make graph a child of the div the elm app is in so it is the same width
+- [ ] make tool-tip styled and labeled correctly
+- [x] add tool-tips to graph
 
 Longer term improvements:
 
