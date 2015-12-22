@@ -22,9 +22,9 @@ const DeploySchema = new Schema({
 
 DeploySchema.statics.getForWeek = async function(date, project='STU-CM-Build-Master') {
   await this.updateDeploysIfNotUpToDate(project)
-  let weekDay = moment(date)
-  let startOfWeek = weekDay.startOf('week').valueOf()
-  let endOfWeek = weekDay.endOf('week').valueOf()
+  const weekDay = moment(date)
+  const startOfWeek = weekDay.startOf('week').valueOf()
+  const endOfWeek = weekDay.endOf('week').valueOf()
   return this.find({
     $and: [
       {project},
@@ -33,10 +33,17 @@ DeploySchema.statics.getForWeek = async function(date, project='STU-CM-Build-Mas
       {timestamp: {$lte: endOfWeek}}
     ]
   }).sort({timestamp: -1})
+
+  //const THREE_WEEKS = 1000 * 60 * 60 * 24 *7 * 3
+  //return res.map(d => {
+    //d.timestamp += THREE_WEEKS
+    //return d
+  //})
 }
 
 DeploySchema.statics.getLastId = async function(project) {
-  let newestDeploy = await this.findOne({project}) || {_id: 0}
+  var res = await this.find({project}).sort({_id: -1}).limit(1)
+  let newestDeploy = res[0] || {_id: 0}
   return newestDeploy._id
 }
 

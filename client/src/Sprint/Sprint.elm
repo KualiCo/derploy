@@ -59,11 +59,11 @@ deploysThisSprint currentTime =
 weekDates : Time -> ( Date, Date )
 weekDates time =
     let
-        now = log "WHAT ON EARTH" (Moment.fromTime time)
+        now = Moment.fromTime time
 
-        beginningOfWeek = log "BEGINNING OF WEEK" (Moment.setWeekDay now 1)
+        beginningOfWeek = Moment.setWeekDay now 1
 
-        endOfWeek = log "END OF WEEK" (Moment.setWeekDay now 5)
+        endOfWeek = Moment.setWeekDay now 5
     in
         ( beginningOfWeek |> Moment.toTime |> Date.fromTime
         , endOfWeek |> Moment.toTime |> Date.fromTime

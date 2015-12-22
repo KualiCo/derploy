@@ -111,7 +111,7 @@ update action model =
 
         Actions.FirstLoadOfData loadedDeploys loadedStats ->
             ( { model
-                | deploys = loadedDeploys
+                | deploys = List.map (Deploy.updateRelativeTime model.currentTime) loadedDeploys
                 , stats = loadedStats
               }
             , (sendStatsToJS loadedStats Actions.NoOp)

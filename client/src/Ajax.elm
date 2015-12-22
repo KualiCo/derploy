@@ -51,7 +51,7 @@ fetchStatsAndDeploys successAction errAction =
 
 fetchDeploys' : Task Error (List Deploy)
 fetchDeploys' =
-    Http.get (list deployDecoder) "/deploys?date=2015-11-30"
+    Http.get (list deployDecoder) "/deploys"
 
 
 fetchStats : Task Error (List Stat)
