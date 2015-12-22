@@ -7,7 +7,7 @@ import Deploy.Actions as Actions exposing (Action, DeploysAction)
 import Deploy.Deploy as Deploy exposing (Deploy)
 import Html exposing (Html, div, h2, text)
 import Html.Attributes exposing (class)
-import Moment
+import Moment exposing (Moment)
 import Signal exposing (Address)
 import Time exposing (Time)
 
@@ -52,7 +52,7 @@ deploysThisSprint currentTime =
         [ h2 [] [ text "Sprint Deploys" ]
         , div
             []
-            [ text ((weekDates >> weekRangeFromDates) currentTime) ]
+            [ text (weekRange currentTime) ]
         ]
 
 
@@ -61,19 +61,23 @@ weekDates time =
     let
         now = Moment.fromTime time
 
-        beginningOfWeek = Moment.setWeekDay now 1
+        beginningOfWeek = Moment.setWeekDay now 0
 
-        endOfWeek = Moment.setWeekDay now 5
+        endOfWeek = Moment.setWeekDay now 6
     in
         ( beginningOfWeek |> Moment.toTime |> Date.fromTime
         , endOfWeek |> Moment.toTime |> Date.fromTime
         )
 
 
-weekRangeFromDates : ( Date, Date ) -> String
-weekRangeFromDates dates =
+weekRange : Time -> String
+weekRange time =
     let
-        ( start, end ) = dates
+        now = Moment.fromTime time
+
+        start = Moment.setWeekDay now 1 |> Moment.toTime |> Date.fromTime
+
+        end = Moment.setWeekDay now 5 |> Moment.toTime |> Date.fromTime
     in
         (format "%B %e" start) ++ "-" ++ (format "%B %e" end)
 
@@ -92,3 +96,79 @@ sprintCount deploys =
     div
         [ class "deploy-count sprint-count" ]
         [ text <| toString <| List.length deploys ]
+
+
+type alias SprintDay =
+    { deploys : List Deploy.Model
+    , day : Date.Day
+    }
+
+
+
+-- how does this work?
+-- i make a list of start and end date pairs
+-- map over the list, grab the day off the date, filter down deploys to items between those dates
+
+
+dateRanges : Time -> List Deploy.Model -> List SprintDay
+dateRanges time deploys =
+    let
+        pairs =
+          [ makePairs time 1
+          , makePairs time 2
+          , makePairs time 3
+          , makePairs time 4
+          , makePairs time 5
+          ]
+    in
+        List.map
+          (\(start, end) ->
+            { day = start |> Date.fromTime |> Date.dayOfWeek
+            , deploys = List.filter (\d -> (toFloat d.timestamp) > start && (toFloat d.timestamp) < end) deploys
+            }
+          )
+          pairs
+
+
+makePairs : Time -> Int -> ( Time, Time )
+makePairs time day =
+    let
+        m = time |> Moment.fromTime |> (flip Moment.setWeekDay) day
+
+        start =
+            (-- stuff on sunday actually gets lumped in with monday
+             if day == 1 then
+                Moment.setWeekDay m 0 |> beginningOfDay |> Moment.toTime
+             else
+                beginningOfDay m |> Moment.toTime
+            )
+
+        end =
+            (-- stuff on friday gets lumped in with saturday
+             if day == 5 then
+                Moment.setWeekDay m 6 |> endOfDay |> Moment.toTime
+             else
+                endOfDay m |> Moment.toTime
+            )
+    in
+        ( start, end )
+
+
+beginningOfDay : Moment -> Moment
+beginningOfDay m =
+    { m
+        | hours = 0
+        , minutes = 0
+        , seconds = 0
+        , milliseconds = 0
+    }
+
+
+endOfDay : Moment -> Moment
+endOfDay m =
+    { m
+        | hours = 23
+        , minutes = 59
+        , seconds = 59
+        , milliseconds = 999
+    }
