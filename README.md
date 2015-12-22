@@ -28,8 +28,8 @@ won't start with that much data.
 ## Configuration
 
 Config happens in `server/config.js`. The config pulls from environment
-variables. You'll need to supply a github oauth token, a jenkins username, and
-a jenkins password.
+variables. You'll need to supply a github oauth token, a jenkins url, a jenkins
+username, and a jenkins password.
 
 ## TODO
 

@@ -4,7 +4,7 @@ import axios from 'axios'
 import {find, head, last} from 'lodash'
 
 import augmentWithPrInfo from './augment-deploy-with-pr'
-import {JENKINS_USER, JENKINS_KEY} from '../config'
+import {JENKINS_USER, JENKINS_KEY, JENKINS_URL} from '../config'
 
 type Build = {
   number: number,
@@ -24,7 +24,7 @@ function credentials() {
 
 function fetchProject(project: string): Promise<Object> {
   return axios({
-    url: `***REMOVED***/job/${project}/api/json`,
+    url: `${JENKINS_URL}/job/${project}/api/json`,
     auth: credentials()
   }).then(res => res.data)
 }
@@ -60,7 +60,7 @@ export async function getBuildsNewerThan(
 
 function fetchDeploy(project: string, id: string): Promise<Object> {
   return axios({
-    url: `***REMOVED***/job/${project}/${id}/api/json`,
+    url: `${JENKINS_URL}/job/${project}/${id}/api/json`,
     auth: credentials()
   })
   .then(r => r.data)
