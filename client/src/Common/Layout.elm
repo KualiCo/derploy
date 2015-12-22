@@ -5,17 +5,17 @@ import Html.Attributes exposing (class, src)
 
 
 column : List Html -> Html
-column html =
+column children =
     div
         [ class "column" ]
-        html
+        children
 
 
 row : List Html -> Html
-row html =
+row children =
     div
         [ class "flex-row" ]
-        html
+        children
 
 
 type alias ImageRow =

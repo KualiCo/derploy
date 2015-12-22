@@ -9,6 +9,7 @@ import Html exposing (Html, div, h2, text)
 import Html.Attributes exposing (class)
 import Moment exposing (Moment)
 import Signal exposing (Address)
+import Sprint.SprintDay as SprintDay exposing (SprintDay)
 import Time exposing (Time)
 
 
@@ -16,13 +17,14 @@ view : Time -> Address DeploysAction -> List Deploy -> Html
 view currentTime address deploys =
     let
         sprintDeploys = deploysForWeek currentTime deploys
+        deploysForEachDay = dateRanges currentTime deploys
     in
         div
             [ class "sprint" ]
             [ sprintHeader sprintDeploys currentTime
             , div
                 [ class "deploy-rows" ]
-                [ text "COMING SOON WOO" ]
+                (List.map SprintDay.view deploysForEachDay)
             ]
 
 
@@ -98,12 +100,6 @@ sprintCount deploys =
         [ text <| toString <| List.length deploys ]
 
 
-type alias SprintDay =
-    { deploys : List Deploy.Model
-    , day : Date.Day
-    }
-
-
 
 -- how does this work?
 -- i make a list of start and end date pairs
@@ -122,15 +118,15 @@ dateRanges time deploys =
           ]
     in
         List.map
-          (\(start, end) ->
-            { day = start |> Date.fromTime |> Date.dayOfWeek
+          (\(start, end, day) ->
+            { day = day
             , deploys = List.filter (\d -> (toFloat d.timestamp) > start && (toFloat d.timestamp) < end) deploys
             }
           )
           pairs
 
 
-makePairs : Time -> Int -> ( Time, Time )
+makePairs : Time -> Int -> ( Time, Time, Date.Day )
 makePairs time day =
     let
         m = time |> Moment.fromTime |> (flip Moment.setWeekDay) day
@@ -150,8 +146,17 @@ makePairs time day =
              else
                 endOfDay m |> Moment.toTime
             )
+
+        dayOfWeek =
+          (
+            if day == 1 then
+              Date.Mon
+            else
+              start |> Date.fromTime |> Date.dayOfWeek
+          )
+
     in
-        ( start, end )
+        ( start, end, dayOfWeek )
 
 
 beginningOfDay : Moment -> Moment
