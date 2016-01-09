@@ -3,6 +3,7 @@
 }
 
 body {
+  color: #50555E;
   background-color: #EAEAEA;
   font-family: 'Lato', 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
@@ -11,6 +12,14 @@ body {
   width: 90%;
   margin: 0 auto;
   /*background-color: #FCFCFC;*/
+}
+
+h1.title {
+  margin: 0.25em 0.25em;
+}
+
+h1.title span:last-child {
+  font-weight: 300;
 }
 
 .row {
@@ -60,6 +69,7 @@ body {
   overflow-y: auto;
 }
 
+
 .profile-pic {
   border-radius: 50%;
   height: 20px;
@@ -74,7 +84,7 @@ body {
   border-top: 1px solid #EAEAEA;
   display: flex;
   flex-direction: row;
-  font-size: 0.7em;
+  font-size: 0.8em;
   height: 47px;
   justify-content: space-between;
   padding: 0.5em 0.7em 0.5em 0.7em;
@@ -135,6 +145,17 @@ body {
 
 .sprint-header .deploys-today div {
   color: #DEF2CB;
+}
+
+.deploy-container .deploys-for-day {
+  color: #A4A6AB;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.deploy-container.is-in-future {
+  background-color: #F7F7F7;
+  color: #A5A7AC;
 }
 
 .flex-row {

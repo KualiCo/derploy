@@ -17,6 +17,7 @@ view : Time -> Address DeploysAction -> List Deploy -> Html
 view currentTime address deploys =
     let
         sprintDeploys = deploysForWeek currentTime deploys
+
         deploysForEachDay = dateRanges currentTime deploys
     in
         div
@@ -107,23 +108,27 @@ sprintCount deploys =
 
 
 dateRanges : Time -> List Deploy.Model -> List SprintDay
-dateRanges time deploys =
+dateRanges currentTime deploys =
     let
         pairs =
-          [ makePairs time 1
-          , makePairs time 2
-          , makePairs time 3
-          , makePairs time 4
-          , makePairs time 5
-          ]
+            [ makePairs currentTime 1
+            , makePairs currentTime 2
+            , makePairs currentTime 3
+            , makePairs currentTime 4
+            , makePairs currentTime 5
+            ]
     in
         List.map
-          (\(start, end, day) ->
-            { day = day
-            , deploys = List.filter (\d -> (toFloat d.timestamp) > start && (toFloat d.timestamp) < end) deploys
-            }
-          )
-          pairs
+            (\( start, end, day ) ->
+                { day = day
+                , deploys =
+                    List.filter
+                        (\d -> (toFloat d.timestamp) > start && (toFloat d.timestamp) < end)
+                        deploys
+                , isInFuture = end > currentTime
+                }
+            )
+            pairs
 
 
 makePairs : Time -> Int -> ( Time, Time, Date.Day )
@@ -148,13 +153,11 @@ makePairs time day =
             )
 
         dayOfWeek =
-          (
-            if day == 1 then
-              Date.Mon
-            else
-              start |> Date.fromTime |> Date.dayOfWeek
-          )
-
+            (if day == 1 then
+                Date.Mon
+             else
+                start |> Date.fromTime |> Date.dayOfWeek
+            )
     in
         ( start, end, dayOfWeek )
 

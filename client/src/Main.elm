@@ -8,7 +8,7 @@ import Debug exposing (log)
 import Deploy.Deploy as Deploy exposing (Deploy)
 import Deploy.Deploys as Deploys
 import Effects exposing (Effects, Never)
-import Html exposing (div, button, text, Html, h1, h2)
+import Html exposing (div, button, text, Html, h1, h2, span)
 import Html.Attributes exposing (class)
 import Maybe exposing (Maybe)
 import Signal exposing (Address, Mailbox, mailbox)
@@ -21,6 +21,8 @@ import Time exposing (Time)
 
 -- update the current time every minute, so we recalculate the relative dates
 -- and such
+
+
 everyMinute : Signal Action
 everyMinute =
     Signal.map (\t -> Actions.UpdateTime t) (Time.every Time.minute)
@@ -60,7 +62,11 @@ view : Address Action -> Model -> Html
 view address model =
     div
         [ class "deploys-container" ]
-        [ h1 [] [ text "CM Stats" ]
+        [ h1
+            [ class "title" ]
+            [ span [] [ text "CM" ]
+            , span [] [ text "STATS" ]
+            ]
         , div
             [ class "row" ]
             [ Deploys.view
@@ -87,6 +93,7 @@ deploysToday currentTime =
             ]
         ]
 
+
 sprintHeader : List Deploy -> Time -> Html
 sprintHeader deploys currentTime =
     div
@@ -102,6 +109,7 @@ sprintCount deploys =
     div
         [ class "deploy-count sprint-count" ]
         [ text <| toString <| List.length deploys ]
+
 
 update : Action -> Model -> ( Model, Effects Action )
 update action model =
@@ -141,8 +149,12 @@ port loadChartData : Signal (List Stat)
 port loadChartData =
     chartMailbox.signal
 
+
+
 -- This comes from the call to `Elm.embed`. Apparently arguments provided at
 -- init time come through on special ports that aren't signals or tasks or
 -- anyhting. They just send data through to you. My knowledge of ports is still
 -- pretty lacking, b/c this doesn't make tons of sense to me.
-port getStartTime: Time
+
+
+port getStartTime : Time

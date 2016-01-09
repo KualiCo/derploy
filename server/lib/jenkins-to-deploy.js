@@ -10,7 +10,7 @@ export type Commit = {
   affectedPaths: Array<string>,
   commitId: string,
   message: string,
-  author: string,
+  author: GitHubUser,
   hash: string,
   timestamp: Timestamp,
 }
@@ -57,25 +57,28 @@ async function getGithubUser(jenkinsUserName: string, fullName: string): Promise
 
   const gitHubUser = await getUser(githubName)
   const user = {
-    fullName,
+    fullName: gitHubUser.name,
     userName: githubName,
     avatarUrl: gitHubUser.avatar_url || PARTY_PARROT
   }
   return Promise.resolve(user)
 }
 
-function parseChangeSet(changeSet): Array<Commit> {
+async function parseChangeSet(changeSet): Promise<Array<Commit>> {
   const changes = get(changeSet, 'items', [])
-  return map(changes, (change) => {
-    return {
+  let parsedChanges =  []
+  for (let change of changes) {
+    let jenkinsUserName = last(get(change, 'author.absoluteUrl', '').split('/'))
+    parsedChanges.push({
       affectedPaths: change.affectedPaths,
       commitId: change.commitId,
       message: change.msg,
-      author: change.author.fullName,
+      author: await getGithubUser(jenkinsUserName, change.author.fullName),
       timestamp: new Date(change.date).getTime(),
       hash: change.id
-    }
-  })
+    })
+  }
+  return parsedChanges
 }
 
 function getProject(build: Object): string {
@@ -99,7 +102,7 @@ export default async function buildToDeploy(build: Object): Promise<Deploy> {
     timestamp: build.timestamp,
     _timestamp: build.timestamp,
     url: build.url,
-    commits: parseChangeSet(build.changeSet),
+    commits: await parseChangeSet(build.changeSet),
     project: getProject(build)
   }
 

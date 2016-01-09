@@ -3,6 +3,7 @@ module Deploy.Commit (..) where
 import Common.Layout exposing (row, column, imageRow, ImageRow)
 import Common.Time exposing (getRelativeTime)
 import Deploy.Actions as Actions exposing (Action)
+import Deploy.GitHubUser exposing (GitHubUser, gitHubUserDecoder)
 import Html exposing (Html, div, text, h3)
 import Html.Attributes exposing (class)
 import Json.Decode exposing (Decoder, list, string, succeed, object7, (:=), int)
@@ -13,7 +14,7 @@ type alias Commit =
     { affectedPaths : List String
     , commitId : String
     , message : String
-    , author : String
+    , author : GitHubUser
     , timestamp : Int
     , hash : String
     , expanded : Bool
@@ -27,7 +28,7 @@ commitDecoder =
         ("affectedPaths" := (list string))
         ("commitId" := string)
         ("message" := string)
-        ("author" := string)
+        ("author" := gitHubUserDecoder)
         ("timestamp" := int)
         ("hash" := string)
         (succeed False)

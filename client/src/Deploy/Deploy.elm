@@ -6,6 +6,7 @@ import Common.Layout exposing (row, column)
 import Date exposing (fromTime)
 import Deploy.Commit as Commit exposing (Commit, commitDecoder)
 import Deploy.Actions as Actions exposing (Action)
+import Deploy.GitHubUser exposing (GitHubUser, gitHubUserDecoder)
 import Debug exposing (log)
 import Html exposing (Html, div, text, img, span, button, h3, a, h4)
 import Html.Attributes exposing (src, class, href)
@@ -14,23 +15,6 @@ import Http exposing (Error)
 import Json.Decode exposing (Decoder, succeed, (:=), list, string, object3, object7, object8, int, succeed)
 import Helpers exposing ((|:))
 import Time exposing (Time)
-
-
-type alias GitHubUser =
-    { fullName : String
-    , userName : String
-    , avatarUrl : String
-    }
-
-
-gitHubUserDecoder : Decoder GitHubUser
-gitHubUserDecoder =
-    object3
-        GitHubUser
-        ("fullName" := string)
-        ("userName" := string)
-        ("avatarUrl" := string)
-
 
 type alias Deploy =
     { user : GitHubUser

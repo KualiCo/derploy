@@ -10,12 +10,18 @@ import Html.Attributes exposing (..)
 type alias SprintDay =
     { deploys : List Deploy.Model
     , day : Date.Day
+    , isInFuture : Bool
     }
 
 view : SprintDay -> Html
-view sprint =
+view sprintDay =
   div
-    [ class "deploy-container" ]
-    [ div [] [text (toString sprint.day)]
-    , div [] [text <| toString <| List.length sprint.deploys]
+    [
+      classList
+        [ ("deploy-container", True)
+        , ("is-in-future", sprintDay.isInFuture)
+        ]
+    ]
+    [ div [] [text (toString sprintDay.day)]
+    , div [ class "deploys-for-day" ] [text <| toString <| List.length sprintDay.deploys]
     ]
