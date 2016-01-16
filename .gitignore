@@ -3,3 +3,4 @@ db.json
 elm-stuff
 client/build
 token.json
+server/lib/jenkins-to-github.json

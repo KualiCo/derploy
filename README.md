@@ -5,7 +5,13 @@ of those deploys are.
 
 ## Installation And Running
 
-You need Elm 0.16 and MongoDB installed. Once those are installed, run this:
+Install Elm 0.16 and MongoDB.
+
+
+Create a JSON file called `server/lib/jenkins-to-deploy.json` that maps jenkins usernames to their corresponding github username.
+
+
+Run this:
 
 ```bash
 npm i
@@ -21,6 +27,7 @@ see the deploys.
 The first time this runs, it will need to grab a bunch of builds from Jenkins.
 This can take a minute or two.
 
+
 Also, Jenkins only exposes the last 50 builds through the api, so by default it
 won't start with that much data.
 
@@ -29,7 +36,7 @@ won't start with that much data.
 
 Config happens in `server/config.js`. The config pulls from environment
 variables. You'll need to supply a github oauth token, a jenkins url, a jenkins
-username, and a jenkins password.
+username, and a jenkins auth token. See [here](https://wiki.jenkins-ci.org/display/JENKINS/Authenticating+scripted+clients) for how to generate an auth token for a jenkins user.
 
 ## TODO
 

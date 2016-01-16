@@ -10,7 +10,7 @@
     "drop": "babel-node server/scripts/drop.js",
     "watch": "webpack --watch --config webpack.config.js"
   },
-  "author": "Jamison Dance <***REMOVED***@kuali.co> (http://***REMOVED***.dance)",
+  "author": "Jamison Dance <jamison@kuali.co> (http://jamison.dance)",
   "license": "ISC",
   "dependencies": {
     "axios": "0.8.0",

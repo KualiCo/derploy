@@ -3,6 +3,7 @@
 import {get, last, map} from 'lodash'
 
 import {getUser} from './github'
+import JENKINS_TO_GITHUB from './jenkins-to-github.json'
 
 type Timestamp = number
 
@@ -34,14 +35,6 @@ export type Deploy = {
   url: string,
   commits: Array<Commit>,
   project: string
-}
-
-const JENKINS_TO_GITHUB = {
-  ***REMOVED***: 'splodingsocks',
-  ***REMOVED***: 'jergason',
-  ***REMOVED***: 'numso',
-  ***REMOVED***: '***REMOVED***bward',
-  ***REMOVED***: 'omginbd'
 }
 
 const PARTY_PARROT = 'https://emoji.slack-edge.com/T02M85ECP/partyparrot/27cfbe1c58952b0f.gif'

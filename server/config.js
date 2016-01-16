@@ -11,8 +11,8 @@ db.on('error', (err) => {
   console.error('ERROR WITH MONGO CONNECTION', err)
 })
 
-export let GH_TOKEN = process.env.GH_TOKEN || '***REMOVED***'
-export let JENKINS_USER = process.env.JENKINS_USER || '***REMOVED***'
-export let JENKINS_KEY = process.env.JENKINS_KEY || '***REMOVED***'
-export let JENKINS_URL = process.env.JENKINS_URL || '***REMOVED***'
+export let GH_TOKEN = process.env.GH_TOKEN
+export let JENKINS_USER = process.env.JENKINS_USER
+export let JENKINS_KEY = process.env.JENKINS_KEY
+export let JENKINS_URL = process.env.JENKINS_URL
 export let PORT = process.env.PORT || 2999
